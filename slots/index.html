@@ -3,148 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slot Machine</title>
+    <title>Pragmatic-Style Slot</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f1c40f;
+        }
+
         body {
-            background: #1a1a1a;
+            background: radial-gradient(circle at center, #1a1a1a, #000);
             color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: Arial, sans-serif;
         }
 
-        .slot-machine {
-            background: #2c2c2c;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        .reels {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .reel {
-            width: 100px;
-            height: 100px;
-            background: #333;
-            border-radius: 10px;
-            overflow: hidden;
+        .slot-container {
+            width: 95%;
+            max-width: 800px;
+            margin: 20px auto;
             position: relative;
         }
 
-        .symbols {
+        .reels-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(241,196,15,0.2);
+        }
+
+        .reel {
+            height: 150px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .symbols-container {
             position: absolute;
-            transition: top 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+            width: 100%;
+            height: 500%;
+            transform-style: preserve-3d;
+            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
         .symbol {
-            width: 100px;
-            height: 100px;
+            height: 20%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 2.5em;
+            backface-visibility: hidden;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
         }
 
         .controls {
-            margin-top: 20px;
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        .bet-panel {
+            display: flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: var(--primary-color);
+            border-radius: 8px;
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background: #4CAF50;
+            padding: 12px 20px;
+            background: var(--secondary-color);
             border: none;
+            border-radius: 8px;
             color: white;
-            border-radius: 5px;
-            transition: background 0.3s;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1em;
         }
 
         button:hover {
-            background: #45a049;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--secondary-color);
         }
 
-        .balance {
-            font-size: 24px;
-            padding: 10px 20px;
-            background: #333;
-            border-radius: 5px;
-        }
-
-        .win-animation {
-            animation: win 1s ease-in-out;
-        }
-
-        @keyframes win {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .paytable {
-            margin-top: 20px;
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
             padding: 15px;
-            background: #333;
+            background: rgba(255,255,255,0.1);
             border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .reel {
+                height: 100px;
+            }
+            
+            .symbol {
+                font-size: 1.8em;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="slot-machine">
-        <div class="balance">Balance: $<span id="balance">1000</span></div>
-        <div class="reels" id="reels">
-            <!-- 5 reels -->
-            <div class="reel"><div class="symbols"></div></div>
-            <div class="reel"><div class="symbols"></div></div>
-            <div class="reel"><div class="symbols"></div></div>
-            <div class="reel"><div class="symbols"></div></div>
-            <div class="reel"><div class="symbols"></div></div>
+    <div class="slot-container">
+        <div class="info-panel">
+            <div>Credit: $<span id="credit">1000</span></div>
+            <div>Bet: $<span id="bet">50</span></div>
+            <div>Win: $<span id="win">0</span></div>
         </div>
+        
+        <div class="reels-grid" id="reels">
+            <div class="reel"><div class="symbols-container"></div></div>
+            <div class="reel"><div class="symbols-container"></div></div>
+            <div class="reel"><div class="symbols-container"></div></div>
+            <div class="reel"><div class="symbols-container"></div></div>
+            <div class="reel"><div class="symbols-container"></div></div>
+        </div>
+
         <div class="controls">
-            <button onclick="spin()">SPIN (BET $<span id="betAmount">10</span>)</button>
-            <button onclick="adjustBet(-5)">-</button>
-            <button onclick="adjustBet(5)">+</button>
-        </div>
-        <div class="paytable">
-            <h3>Paytable:</h3>
-            <div>🍒🍒🍒🍒🍒 - 5x</div>
-            <div>🔔🔔🔔🔔🔔 - 10x</div>
-            <div>7️⃣7️⃣7️⃣7️⃣7️⃣ - 20x</div>
-            <div>⭐️⭐️⭐️⭐️⭐️ - 50x</div>
+            <button onclick="adjustBet(-10)">- Bet</button>
+            <button onclick="spin()">SPIN</button>
+            <button onclick="adjustBet(10)">+ Bet</button>
         </div>
     </div>
 
     <script>
-        const symbols = ['🍒', '🔔', '7️⃣', '⭐️'];
-        const payouts = {
-            '🍒': 5,
-            '🔔': 10,
-            '7️⃣': 20,
-            '⭐️': 50
+        const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡'];
+        const paytable = {
+            '🍒': {3: 5, 4: 10, 5: 20},
+            '🔔': {3: 10, 4: 20, 5: 40},
+            '7️⃣': {3: 20, 4: 50, 5: 100},
+            '💎': {3: 50, 4: 100, 5: 200},
+            '🍀': {3: 30, 4: 60, 5: 120},
+            '⚡': {3: 40, 4: 80, 5: 160}
         };
         
-        let balance = 1000;
-        let currentBet = 10;
+        let credit = 1000;
+        let currentBet = 50;
         let isSpinning = false;
+        const reelCount = 5;
+        const symbolCount = 20;
 
         function initializeReels() {
-            const reels = document.querySelectorAll('.symbols');
+            const reels = document.querySelectorAll('.symbols-container');
             reels.forEach(reel => {
                 let symbolsHTML = '';
-                // Create 20 symbols (5 visible + 15 buffer)
-                for(let i = 0; i < 20; i++) {
+                for(let i = 0; i < symbolCount; i++) {
                     const symbol = symbols[Math.floor(Math.random() * symbols.length)];
                     symbolsHTML += `<div class="symbol">${symbol}</div>`;
                 }
@@ -153,66 +177,73 @@
         }
 
         function spin() {
-            if(isSpinning || balance < currentBet) return;
+            if(isSpinning || credit < currentBet) return;
             
-            balance -= currentBet;
-            updateBalance();
+            credit -= currentBet;
+            updateDisplay();
             isSpinning = true;
 
-            const reels = document.querySelectorAll('.symbols');
+            const reels = document.querySelectorAll('.symbols-container');
             const results = [];
+            const spinPromises = [];
 
             reels.forEach((reel, index) => {
-                const randomOffset = Math.floor(Math.random() * 15) * 100;
-                reel.style.top = `-${1900 + randomOffset}px`;
+                const randomPosition = Math.floor(Math.random() * (symbolCount * 5)) * 20;
+                reel.style.transform = `translateY(-${randomPosition}%)`;
                 
-                setTimeout(() => {
-                    const finalPosition = parseInt(reel.style.top) % 1000;
-                    const resultSymbol = reel.children[Math.abs(Math.floor(finalPosition / 100))].textContent;
-                    results[index] = resultSymbol;
-                    
-                    if(index === reels.length - 1) {
-                        checkWin(results);
-                        isSpinning = false;
-                    }
-                }, 5000);
+                spinPromises.push(new Promise(resolve => {
+                    setTimeout(() => {
+                        const finalPosition = parseInt(reel.style.transform.split('-')[1]) % 100;
+                        const resultIndex = Math.floor(finalPosition / 20);
+                        results[index] = reel.children[resultIndex].textContent;
+                        resolve();
+                    }, 3000);
+                }));
+            });
+
+            Promise.all(spinPromises).then(() => {
+                calculateWin(results);
+                isSpinning = false;
             });
         }
 
-        function checkWin(results) {
+        function calculateWin(results) {
             let winAmount = 0;
+            const symbolCounts = {};
             
-            // Check horizontal lines
-            const line = results.join('');
-            for(const [symbol, multiplier] of Object.entries(payouts)) {
-                const regex = new RegExp(`${symbol}{5}`);
-                if(regex.test(line)) {
-                    winAmount = currentBet * multiplier;
-                    break;
+            results.forEach(symbol => {
+                symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
+            });
+
+            Object.entries(symbolCounts).forEach(([symbol, count]) => {
+                if(count >= 3) {
+                    const multiplier = paytable[symbol][Math.min(count, 5)] || 0;
+                    winAmount += currentBet * multiplier;
                 }
-            }
+            });
 
             if(winAmount > 0) {
-                balance += winAmount;
-                updateBalance();
+                credit += winAmount;
+                document.getElementById('win').textContent = winAmount;
                 animateWin();
-                alert(`You won $${winAmount}!`);
             }
+            updateDisplay();
         }
 
         function adjustBet(amount) {
-            currentBet = Math.max(5, Math.min(100, currentBet + amount));
-            document.getElementById('betAmount').textContent = currentBet;
+            currentBet = Math.max(10, Math.min(500, currentBet + amount));
+            updateDisplay();
         }
 
-        function updateBalance() {
-            document.getElementById('balance').textContent = balance;
+        function updateDisplay() {
+            document.getElementById('credit').textContent = credit;
+            document.getElementById('bet').textContent = currentBet;
         }
 
         function animateWin() {
             const reels = document.getElementById('reels');
-            reels.classList.add('win-animation');
-            setTimeout(() => reels.classList.remove('win-animation'), 1000);
+            reels.style.transform = 'scale(1.05)';
+            setTimeout(() => reels.style.transform = 'scale(1)', 200);
         }
 
         // Initialize game
