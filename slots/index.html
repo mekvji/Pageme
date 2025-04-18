@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Slot Machine</title>
+    <title>Diamond Slot Machine</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -129,9 +129,9 @@
 <body>
     <div class="slot-container">
         <div class="info-panel">
-            <div>Credit: $<span id="credit">1000</span></div>
-            <div>Bet: $<span id="bet">50</span></div>
-            <div>Win: $<span id="win">0</span></div>
+            <div>Credit: Rp<span id="credit">1.000.000</span></div>
+            <div>Bet: Rp<span id="bet">50.000</span></div>
+            <div>Win: Rp<span id="win">0</span></div>
         </div>
         
         <div class="reels-grid" id="reels">
@@ -143,15 +143,15 @@
         </div>
 
         <div class="controls">
-            <button onclick="adjustBet(-10)">- Bet</button>
+            <button onclick="adjustBet(-50000)">- Bet</button>
             <button onclick="spin()">SPIN</button>
-            <button onclick="adjustBet(10)">+ Bet</button>
+            <button onclick="adjustBet(50000)">+ Bet</button>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
-        // Sound Effects Configuration
+        // Konfigurasi Sound Effect
         const SoundManager = {
             spin: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/11/14/audio_6c5dc3d381.mp3'], loop: true, volume: 0.7 }),
             win: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2021/08/04/audio_0d5d4dc6e5.mp3'], volume: 0.8 }),
@@ -160,24 +160,15 @@
             coinInsert: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/10/13/audio_9a8f8a1a6a.mp3'], volume: 0.7 })
         };
 
-        // Game Configuration
-        const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡'];
-        const paytable = {
-            '🍒': {3: 5, 4: 10, 5: 20},
-            '🔔': {3: 10, 4: 20, 5: 40},
-            '7️⃣': {3: 20, 4: 50, 5: 100},
-            '💎': {3: 50, 4: 100, 5: 200},
-            '🍀': {3: 30, 4: 60, 5: 120},
-            '⚡': {3: 40, 4: 80, 5: 160}
-        };
-        
-        let credit = 1000;
-        let currentBet = 50;
+        // Konfigurasi Game
+        const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡', '💩'];
+        let credit = 1000000;
+        let currentBet = 50000;
         let isSpinning = false;
         const reelCount = 5;
         const symbolCount = 20;
 
-        // Game Initialization
+        // Inisialisasi Reel
         function initializeReels() {
             const reels = document.querySelectorAll('.symbols-container');
             reels.forEach(reel => {
@@ -190,7 +181,7 @@
             });
         }
 
-        // Core Game Mechanics
+        // Mekanisme Spin
         function spin() {
             if(isSpinning || credit < currentBet) return;
             
@@ -228,40 +219,58 @@
             });
         }
 
+        // Sistem Pembayaran
         function calculateWin(results) {
             let winAmount = 0;
-            const symbolCounts = {};
             
-            results.forEach(symbol => {
-                symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
-            });
+            // Jackpot 5 💎
+            if(results.every(s => s === '💎')) {
+                winAmount = currentBet * 20;
+            } 
+            else {
+                const counts = {};
+                results.forEach(symbol => {
+                    counts[symbol] = (counts[symbol] || 0) + 1;
+                });
 
-            Object.entries(symbolCounts).forEach(([symbol, count]) => {
-                if(count >= 3 && paytable[symbol]) {
-                    const multiplier = paytable[symbol][Math.min(count, 5)] || 0;
-                    winAmount += currentBet * multiplier;
+                // Hitung untuk 💎
+                if(counts['💎']) {
+                    switch(counts['💎']) {
+                        case 4: winAmount += currentBet * 10; break;
+                        case 3: winAmount += currentBet * 6; break;
+                        case 2: winAmount += currentBet * 3; break;
+                    }
                 }
-            });
+
+                // Hitung untuk simbol lain
+                Object.entries(counts).forEach(([symbol, count]) => {
+                    if(symbol === '💎' || symbol === '💩') return;
+                    
+                    if(count >= 4) {
+                        winAmount += currentBet * 2;
+                    }
+                });
+            }
 
             if(winAmount > 0) {
                 credit += winAmount;
-                document.getElementById('win').textContent = winAmount;
+                document.getElementById('win').textContent = winAmount.toLocaleString();
                 SoundManager.win.play();
                 animateWin();
             }
             updateDisplay();
         }
 
-        // UI Functions
+        // Fungsi Bantuan
         function adjustBet(amount) {
-            currentBet = Math.max(10, Math.min(500, currentBet + amount));
+            currentBet = Math.max(50000, Math.min(500000, currentBet + amount));
             SoundManager.buttonClick.play();
             updateDisplay();
         }
 
         function updateDisplay() {
-            document.getElementById('credit').textContent = credit;
-            document.getElementById('bet').textContent = currentBet;
+            document.getElementById('credit').textContent = credit.toLocaleString();
+            document.getElementById('bet').textContent = currentBet.toLocaleString();
         }
 
         function animateWin() {
@@ -270,7 +279,7 @@
             setTimeout(() => reels.style.transform = 'scale(1)', 200);
         }
 
-        // Initialize Game
+        // Inisialisasi Game
         window.onload = () => {
             initializeReels();
             Howler.autoUnlock = true;
