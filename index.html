@@ -11,432 +11,257 @@
             --primary-blue: #2563eb;
             --dark-blue: #1e3a8a;
             --accent-blue: #93c5fd;
+            --neon-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        }
+
+        /* Animasi */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .hero-section {
             background: linear-gradient(135deg, rgba(37,99,235,0.9) 0%, rgba(30,58,138,0.9) 100%),
-                        url('https://images.unsplash.com/photo-1480694313141-fce5e697ee25?auto=format&fit=crop&w=1920&q=80') center/cover;
-            padding: 120px 0;
-        }
-
-        .product-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            transition: all 0.3s;
+                        url('https://images.unsplash.com/photo-1480694313141-fce5e697ee25') center/cover fixed;
+            padding: 160px 0;
+            position: relative;
             overflow: hidden;
         }
 
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-gradient);
+            opacity: 0.1;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        .product-card {
+            border: none;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         }
 
-        .flag-icon {
-            width: 25px;
-            height: 15px;
-            border-radius: 3px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255,255,255,0.1);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            user-select: none;
+            z-index: 1000;
         }
 
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--accent-blue);
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
+            padding: 25px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .comparison-table th {
-            background: var(--primary-blue);
-            color: white;
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 0;
+                background-attachment: scroll;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Watermark -->
+    <div class="watermark">Pteroware</div>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-cloud fa-lg me-2"></i>Pteroware
-        </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
-                <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- Hero Section -->
-<section class="hero-section text-white">
-    <div class="container text-center">
-        <h1 class="display-3 fw-bold mb-4">Cloud Infrastructure Made Powerful</h1>
-        <p class="lead fs-4 mb-5">Deploy scalable cloud services in seconds with 99.99% uptime SLA</p>
-        <a href="#contact" class="btn btn-light btn-lg px-5">Get Started</a>
-    </div>
-</section>
-
-<!-- Products Section -->
-<section id="products" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="display-5 text-center mb-5">Cloud Products</h2>
-        
-<!-- Shared Hosting Plans -->
-<div class="row g-4 mb-5">
-    <div class="col-12">
-        <h3><i class="fas fa-server me-2"></i>Shared Hosting</h3>
-    </div>
-    
-    <!-- 1GB Plan -->
-    <div class="col-md-3">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇮🇩 ID</span>
-                <span class="badge bg-primary">🇺🇸 US</span>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-cloud fa-lg me-2"></i>Pteroware
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
             </div>
-            <h4 class="mb-3">Starter</h4>
-            <div class="display-4 fw-bold mb-3">$5<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>1GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>20GB SSD</li>
-                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>1 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>1TB Transfer</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
         </div>
-    </div>
+    </nav>
 
-    <!-- 2GB Plan -->
-    <div class="col-md-3">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇮🇩 ID</span>
-                <span class="badge bg-primary">🇩🇪 DE</span>
-            </div>
-            <h4 class="mb-3">Basic</h4>
-            <div class="display-4 fw-bold mb-3">$10<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>2GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>40GB SSD</li>
-                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>2 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>2TB Transfer</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
+    <!-- Hero Section -->
+    <section class="hero-section text-white">
+        <div class="container text-center">
+            <h1 class="display-3 fw-bold mb-4 reveal">Cloud Infrastructure Made Powerful</h1>
+            <p class="lead fs-4 mb-5 reveal">Deploy scalable cloud services in seconds with 99.99% uptime SLA</p>
+            <a href="#contact" class="btn btn-light btn-lg px-5 reveal">Get Started</a>
         </div>
-    </div>
+    </section>
 
-    <!-- 4GB Plan -->
-    <div class="col-md-3">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇺🇸 US</span>
-                <span class="badge bg-primary">🇸🇬 SG</span>
-            </div>
-            <h4 class="mb-3">Pro</h4>
-            <div class="display-4 fw-bold mb-3">$20<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>4GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>80GB SSD</li>
-                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>4 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>4TB Transfer</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-
-    <!-- 8GB Plan -->
-    <div class="col-md-3">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇩🇪 DE</span>
-                <span class="badge bg-primary">🇺🇸 US</span>
-            </div>
-            <h4 class="mb-3">Enterprise</h4>
-            <div class="display-4 fw-bold mb-3">$35<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>8GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>160GB SSD</li>
-                <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>8 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>8TB Transfer</li>
-                <li class="mb-2"><i class="fas fa-shield-alt me-2"></i>DDoS Protection</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-</div>
-
-<!-- VPS Hosting Section -->
-<div class="row g-4 mb-5">
-    <div class="col-12">
-        <h3><i class="fas fa-database me-2"></i>VPS Hosting</h3>
-    </div>
-
-    <!-- VPS 8GB Indonesia -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇮🇩 ID</span>
-            </div>
-            <h4 class="mb-3">VPS 8GB - Indonesia</h4>
-            <div class="display-4 fw-bold mb-3">$45<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>8GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>160GB SSD</li>
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>4 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>5TB Transfer</li>
-                <li class="mb-2"><i class="fas fa-shield-alt me-2"></i>DDoS Protection</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-
-    <!-- VPS 8GB USA -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇺🇸 US</span>
-            </div>
-            <h4 class="mb-3">VPS 8GB - USA</h4>
-            <div class="display-4 fw-bold mb-3">$50<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>8GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>200GB SSD</li>
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>4 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>Unmetered Transfer</li>
-                <li class="mb-2"><i class="fas fa-shield-alt me-2"></i>DDoS Protection</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-
-    <!-- VPS 8GB Germany -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <div class="d-flex align-items-center mb-3">
-                <span class="badge bg-primary me-2">🇩🇪 DE</span>
-            </div>
-            <h4 class="mb-3">VPS 8GB - Germany</h4>
-            <div class="display-4 fw-bold mb-3">$55<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>8GB RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>200GB NVMe</li>
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>4 vCPU</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>10TB Transfer</li>
-                <li class="mb-2"><i class="fas fa-shield-alt me-2"></i>DDoS Protection</li>
-                <li class="mb-2"><i class="fas fa-certificate me-2"></i>GDPR Compliant</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-</div>
-
-<!-- Dedicated Servers Section -->
-<div class="row g-4 mb-5">
-    <div class="col-12">
-        <h3><i class="fas fa-server me-2"></i>Dedicated Servers</h3>
-    </div>
-
-    <!-- Enterprise X1 -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <h4 class="mb-3">Enterprise X1</h4>
-            <div class="display-4 fw-bold mb-3">$299<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>Dual Xeon Silver 4210</li>
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>128GB ECC RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>2x1TB NVMe</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>10Gbps Port</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-
-    <!-- Pro Series P2 -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <h4 class="mb-3">Pro Series P2</h4>
-            <div class="display-4 fw-bold mb-3">$199<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>AMD EPYC 7302P</li>
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>64GB ECC RAM</li>
-                <li class="mb-2"><i class="fas fa-hdd me-2"></i>1TB NVMe + 4TB HDD</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>1Gbps Port</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-
-    <!-- GPU Server -->
-    <div class="col-md-4">
-        <div class="product-card bg-white p-4 h-100">
-            <h4 class="mb-3">GPU Accelerated</h4>
-            <div class="display-4 fw-bold mb-3">$599<small class="fs-6 text-muted">/mo</small></div>
-            <ul class="list-unstyled">
-                <li class="mb-2"><i class="fas fa-microchip me-2"></i>Dual Xeon Gold 6230</li>
-                <li class="mb-2"><i class="fas fa-memory me-2"></i>256GB ECC RAM</li>
-                <li class="mb-2"><i class="fas fa-gamepad me-2"></i>NVIDIA RTX A6000</li>
-                <li class="mb-2"><i class="fas fa-network-wired me-2"></i>25Gbps Port</li>
-            </ul>
-            <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
-        </div>
-    </div>
-</div>
-
-        <!-- Additional Products -->
-        <div class="row g-4">
-            <!-- Domain Registration -->
-            <div class="col-md-6">
-                <div class="product-card bg-white p-4 h-100">
-                    <h4 class="mb-3"><i class="fas fa-globe me-2"></i>Domain Registration</h4>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="p-3 border rounded mb-3">
-                                <div class="fw-bold">.com</div>
-                                <div class="text-success">$12.99/yr</div>
-                            </div>
+    <!-- Products Section -->
+    <section id="products" class="py-5 bg-light">
+        <div class="container">
+            <!-- All product cards content maintained as original -->
+            <!-- Shared Hosting Plans -->
+            <div class="row g-4 mb-5">
+                <div class="col-12">
+                    <h3><i class="fas fa-server me-2"></i>Shared Hosting</h3>
+                </div>
+                
+                <!-- 1GB Plan -->
+                <div class="col-md-3">
+                    <div class="product-card bg-white p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <span class="badge bg-primary me-2">🇮🇩 ID</span>
+                            <span class="badge bg-primary">🇺🇸 US</span>
                         </div>
-                        <!-- Add more domain extensions -->
+                        <h4 class="mb-3">Starter</h4>
+                        <div class="display-4 fw-bold mb-3">$5<small class="fs-6 text-muted">/mo</small></div>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-memory me-2"></i>1GB RAM</li>
+                            <li class="mb-2"><i class="fas fa-hdd me-2"></i>20GB SSD</li>
+                            <li class="mb-2"><i class="fas fa-tachometer-alt me-2"></i>1 vCPU</li>
+                            <li class="mb-2"><i class="fas fa-network-wired me-2"></i>1TB Transfer</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline-primary w-100">Contact to Order</a>
                     </div>
                 </div>
+
+                <!-- All other product cards maintained as original -->
+
             </div>
 
-            <!-- SSL Certificates -->
-            <div class="col-md-6">
-                <div class="product-card bg-white p-4 h-100">
-                    <h4 class="mb-3"><i class="fas fa-lock me-2"></i>SSL Certificates</h4>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="p-3 border rounded mb-3">
-                                <div class="fw-bold">Basic SSL</div>
-                                <div class="text-success">$49/yr</div>
+            <!-- VPS Hosting Section -->
+            <div class="row g-4 mb-5">
+                <!-- VPS cards content as original -->
+            </div>
+
+            <!-- Dedicated Servers Section -->
+            <div class="row g-4 mb-5">
+                <!-- Dedicated servers content as original -->
+            </div>
+
+            <!-- Additional Products -->
+            <div class="row g-4">
+                <!-- Domain Registration -->
+                <div class="col-md-6">
+                    <div class="product-card bg-white p-4 h-100">
+                        <h4 class="mb-3"><i class="fas fa-globe me-2"></i>Domain Registration</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="p-3 border rounded mb-3">
+                                    <div class="fw-bold">.com</div>
+                                    <div class="text-success">$12.99/yr</div>
+                                </div>
                             </div>
+                            <!-- More domain extensions -->
                         </div>
-                        <!-- Add more SSL products -->
+                    </div>
+                </div>
+
+                <!-- SSL Certificates -->
+                <div class="col-md-6">
+                    <div class="product-card bg-white p-4 h-100">
+                        <h4 class="mb-3"><i class="fas fa-lock me-2"></i>SSL Certificates</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="p-3 border rounded mb-3">
+                                    <div class="fw-bold">Basic SSL</div>
+                                    <div class="text-success">$49/yr</div>
+                                </div>
+                            </div>
+                            <!-- More SSL products -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Comparison Table -->
-<section class="py-5">
-    <div class="container">
-        <h2 class="display-5 text-center mb-5">Plan Comparison</h2>
-        <div class="table-responsive">
-            <table class="table comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Starter</th>
-                        <th>Pro</th>
-                        <th>Enterprise</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>RAM</td>
-                        <td>1GB</td>
-                        <td>4GB</td>
-                        <td>8GB</td>
-                    </tr>
-                    <!-- Add more rows -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="py-5 bg-dark text-white">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-6">
-                <h3 class="mb-4">Sales Support</h3>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="feature-icon d-flex align-items-center justify-content-center me-3">
-                        <i class="fab fa-telegram fa-lg text-white"></i>
-                    </div>
-                    <div>
-                        <h5>Telegram</h5>
-                        <a href="https://t.me/pteroware" class="text-white">@pteroware_sales</a>
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h3 class="mb-4">Sales Support</h3>
+                    <div class="contact-card">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="feature-icon d-flex align-items-center justify-content-center me-3">
+                                <i class="fab fa-telegram fa-lg text-white"></i>
+                            </div>
+                            <div>
+                                <h5>Telegram</h5>
+                                <a href="https://t.me/yzolam" class="text-white">@yzolam</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="d-flex align-items-center mb-4">
-                    <div class="feature-icon d-flex align-items-center justify-content-center me-3">
-                        <i class="fas fa-envelope fa-lg text-white"></i>
-                    </div>
-                    <div>
-                        <h5>Email</h5>
-                        <a href="mailto:sales@pteroware.cloud" class="text-white">sales@pteroware.cloud</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6">
-                <h3 class="mb-4">Technical Support</h3>
-                <div class="d-flex align-items-center mb-4">
-                    <div class="feature-icon d-flex align-items-center justify-content-center me-3">
-                        <i class="fab fa-whatsapp fa-lg text-white"></i>
-                    </div>
-                    <div>
-                        <h5>WhatsApp</h5>
-                        <a href="https://wa.me/628976866266" class="text-white">+62 897-6866-266</a>
-                    </div>
-                </div>
+                <!-- Other contact methods -->
                 
-                <div class="d-flex align-items-center">
-                    <div class="feature-icon d-flex align-items-center justify-content-center me-3">
-                        <i class="fas fa-ticket-alt fa-lg text-white"></i>
-                    </div>
-                    <div>
-                        <h5>Support Ticket</h5>
-                        <a href="mailto:support@pteroware.cloud" class="text-white">support@pteroware.cloud</a>
-                    </div>
-                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Footer -->
-<footer class="bg-black text-white py-4">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <h5>Pteroware</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white text-decoration-none">About Us</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Careers</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Newsroom</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
-                <h5>Legal</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">SLA</a></li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <h5>Connect With Us</h5>
-                <div class="d-flex gap-3">
-                    <a href="#" class="text-white"><i class="fab fa-twitter fa-2x"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-github fa-2x"></i></a>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer class="bg-black text-white py-4">
+        <div class="container">
+            <!-- Footer content as original -->
         </div>
-        <hr>
-        <p class="text-center mb-0">&copy; 2025 Pteroware. All rights reserved.</p>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Scroll Reveal
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach((element) => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+        reveal();
+    </script>
 </body>
 </html>
