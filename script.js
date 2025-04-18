@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Fungsi untuk membuat awan
-    function createClouds() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Generate dynamic clouds
+    const createClouds = () => {
         const cloudsContainer = document.querySelector('.clouds');
-        for (let i = 0; i < 5; i++) {
+        for(let i = 0; i < 5; i++) {
             const cloud = document.createElement('div');
             cloud.className = 'cloud';
             cloud.style.width = Math.random() * 100 + 150 + 'px';
@@ -14,14 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fungsi untuk tombol Get Started
-    function initGetStartedButton() {
+    // Handle Get Started button click
+    const initGetStartedButton = () => {
         const getStartedBtn = document.getElementById('getStarted');
-        if (getStartedBtn) {
-            getStartedBtn.addEventListener('click', function() {
-                const heroContent = document.querySelector('.hero-content');
-                heroContent.classList.add('break-animation');
-                
+        if(getStartedBtn) {
+            getStartedBtn.addEventListener('click', () => {
+                document.querySelector('.hero-content').classList.add('break-animation');
                 setTimeout(() => {
                     window.scrollTo({
                         top: document.querySelector('.products').offsetTop - 100,
@@ -32,40 +30,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fungsi untuk filter kategori
-    function initCategoryFilters() {
+    // Handle category filtering
+    const initCategoryFilters = () => {
         const filterButtons = document.querySelectorAll('.filter-btn');
         
         filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Hapus class active dari semua tombol
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 
-                // Tambahkan class active ke tombol yang diklik
-                this.classList.add('active');
+                // Add active class to clicked button
+                button.classList.add('active');
                 
-                // Dapatkan kategori yang dipilih
-                const category = this.dataset.category;
+                // Get selected category
+                const category = button.dataset.category;
                 
-                // Filter produk
+                // Filter products
                 document.querySelectorAll('.category-section').forEach(section => {
-                    if (category === 'all') {
+                    if(category === 'all') {
                         section.style.display = 'block';
                     } else {
-                        section.style.display = section.dataset.category === category ? 'block' : 'none';
+                        section.style.display = 
+                            section.dataset.category === category ? 'block' : 'none';
                     }
                 });
             });
         });
     }
 
-    // Inisialisasi semua fungsi
-    function init() {
+    // Initialize all features
+    const initialize = () => {
         createClouds();
         initGetStartedButton();
         initCategoryFilters();
     }
 
-    // Jalankan inisialisasi
-    init();
+    // Start the application
+    initialize();
 });
