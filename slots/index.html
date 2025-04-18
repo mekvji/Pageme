@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pragmatic-Style Slot</title>
+    <title>Professional Slot Machine</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -19,6 +19,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 0;
+            overflow-x: hidden;
         }
 
         .slot-container {
@@ -63,6 +65,7 @@
             font-size: 2.5em;
             backface-visibility: hidden;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5));
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
         }
 
         .controls {
@@ -73,15 +76,6 @@
             padding: 15px;
             background: rgba(0,0,0,0.3);
             border-radius: 10px;
-        }
-
-        .bet-panel {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background: var(--primary-color);
-            border-radius: 8px;
         }
 
         button {
@@ -111,7 +105,7 @@
 
         @media (max-width: 768px) {
             .reel {
-                height: 100px;
+                height: 80px;
             }
             
             .symbol {
@@ -121,6 +115,14 @@
             .controls {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .sound-credits {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            color: #666;
         }
     </style>
 </head>
@@ -147,7 +149,18 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
+        // Sound Effects Configuration
+        const SoundManager = {
+            spin: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/11/14/audio_6c5dc3d381.mp3'], loop: true, volume: 0.7 }),
+            win: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2021/08/04/audio_0d5d4dc6e5.mp3'], volume: 0.8 }),
+            reelStop: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/01/18/audio_2d7a8b6c1a.mp3'], volume: 0.6 }),
+            buttonClick: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2021/08/04/audio_4f6d15aef7.mp3'], volume: 0.5 }),
+            coinInsert: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/10/13/audio_9a8f8a1a6a.mp3'], volume: 0.7 })
+        };
+
+        // Game Configuration
         const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡'];
         const paytable = {
             '🍒': {3: 5, 4: 10, 5: 20},
@@ -164,6 +177,7 @@
         const reelCount = 5;
         const symbolCount = 20;
 
+        // Game Initialization
         function initializeReels() {
             const reels = document.querySelectorAll('.symbols-container');
             reels.forEach(reel => {
@@ -176,8 +190,13 @@
             });
         }
 
+        // Core Game Mechanics
         function spin() {
             if(isSpinning || credit < currentBet) return;
+            
+            SoundManager.buttonClick.play();
+            SoundManager.coinInsert.play();
+            SoundManager.spin.play();
             
             credit -= currentBet;
             updateDisplay();
@@ -196,6 +215,7 @@
                         const finalPosition = parseInt(reel.style.transform.split('-')[1]) % 100;
                         const resultIndex = Math.floor(finalPosition / 20);
                         results[index] = reel.children[resultIndex].textContent;
+                        SoundManager.reelStop.play();
                         resolve();
                     }, 3000);
                 }));
@@ -204,6 +224,7 @@
             Promise.all(spinPromises).then(() => {
                 calculateWin(results);
                 isSpinning = false;
+                SoundManager.spin.stop();
             });
         }
 
@@ -216,7 +237,7 @@
             });
 
             Object.entries(symbolCounts).forEach(([symbol, count]) => {
-                if(count >= 3) {
+                if(count >= 3 && paytable[symbol]) {
                     const multiplier = paytable[symbol][Math.min(count, 5)] || 0;
                     winAmount += currentBet * multiplier;
                 }
@@ -225,13 +246,16 @@
             if(winAmount > 0) {
                 credit += winAmount;
                 document.getElementById('win').textContent = winAmount;
+                SoundManager.win.play();
                 animateWin();
             }
             updateDisplay();
         }
 
+        // UI Functions
         function adjustBet(amount) {
             currentBet = Math.max(10, Math.min(500, currentBet + amount));
+            SoundManager.buttonClick.play();
             updateDisplay();
         }
 
@@ -246,8 +270,16 @@
             setTimeout(() => reels.style.transform = 'scale(1)', 200);
         }
 
-        // Initialize game
-        initializeReels();
+        // Initialize Game
+        window.onload = () => {
+            initializeReels();
+            Howler.autoUnlock = true;
+            Howler.autoSuspend = false;
+        };
     </script>
+
+    <div class="sound-credits">
+        Sound effects by Pixabay (CC0 License)
+    </div>
 </body>
 </html>
