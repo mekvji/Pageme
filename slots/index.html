@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced RTP Slot Machine</title>
+    <title>Pro Slot Machine</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -20,16 +20,17 @@
             flex-direction: column;
             align-items: center;
             margin: 0;
+            overflow-x: hidden;
         }
 
         .slot-container {
             width: 95%;
-            max-width: 1000px;
+            max-width: 800px;
             margin: 20px auto;
             position: relative;
         }
 
-        .rtp-display {
+        .rtp-info {
             text-align: center;
             padding: 10px;
             background: rgba(0,0,0,0.5);
@@ -44,6 +45,7 @@
             background: rgba(0,0,0,0.5);
             padding: 15px;
             border-radius: 15px;
+            box-shadow: 0 0 30px rgba(241,196,15,0.2);
         }
 
         .reel {
@@ -60,7 +62,7 @@
             width: 100%;
             height: 500%;
             transform-style: preserve-3d;
-            transition: transform 3s cubic-bezier(0.17, 0.67, 0.36, 1.33);
+            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
         .symbol {
@@ -95,9 +97,15 @@
             font-size: 1.1em;
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 0 15px var(--secondary-color);
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .info-panel {
@@ -110,21 +118,29 @@
         }
 
         @media (max-width: 768px) {
-            .reel { height: 100px; }
-            .symbol { font-size: 1.8em; }
-            .controls { grid-template-columns: 1fr; }
+            .reel {
+                height: 80px;
+            }
+            
+            .symbol {
+                font-size: 1.8em;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="slot-container">
-        <div class="rtp-display">
-            RTP: <span id="rtpValue">96.5%</span> | Volatilitas: Tinggi
+        <div class="rtp-info">
+            RTP: 96.5% | Volatilitas: Tinggi
         </div>
         
         <div class="info-panel">
             <div>Credit: Rp<span id="credit">1.000.000</span></div>
-            <div>Bet: Rp<span id="bet">500</span></div>
+            <div>Bet: Rp<span id="bet">50.000</span></div>
             <div>Win: Rp<span id="win">0</span></div>
         </div>
         
@@ -137,19 +153,17 @@
         </div>
 
         <div class="controls">
-            <button onclick="adjustBet(-5000)">- Bet</button>
-            <button onclick="spin()">SPIN</button>
-            <button onclick="adjustBet(500)">+ Bet</button>
+            <button onclick="adjustBet(-50000)" id="betDown">- Bet</button>
+            <button onclick="spin()" id="spinBtn">SPIN</button>
+            <button onclick="adjustBet(50000)" id="betUp">+ Bet</button>
         </div>
     </div>
 
     <script>
         const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡', '🎰', '💰', '🔥', '⭐'];
-        const RTP = 96.5; // Dalam persen
-        const volatility = 0.15; // 0-1 (15% volatilitas)
-        
+        const RTP = 96.5;
         let credit = 1000000;
-        let currentBet = 500;
+        let currentBet = 50000;
         let isSpinning = false;
 
         function initializeReels() {
@@ -165,38 +179,48 @@
             });
         }
 
-        function calculateRTPOutcome() {
-            const baseProbability = RTP / 100;
-            const rand = Math.random();
-            const outcome = rand * (1 + volatility * 2) + (1 - volatility);
-            return Math.min(outcome, 1);
+        function toggleButtons(disabled) {
+            document.querySelectorAll('button').forEach(btn => {
+                btn.disabled = disabled;
+            });
+        }
+
+        function calculateWin(results) {
+            const symbolCounts = {};
+            results.forEach(symbol => {
+                symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
+            });
+
+            let winAmount = 0;
+            const basePayout = currentBet * (RTP/100);
+            
+            Object.entries(symbolCounts).forEach(([symbol, count]) => {
+                if(count >= 3) winAmount += basePayout * count;
+                if(count >= 5) winAmount += basePayout * 5;
+            });
+
+            return Math.floor(winAmount);
         }
 
         function spin() {
             if(isSpinning || credit < currentBet) return;
             
+            toggleButtons(true);
+            isSpinning = true;
             credit -= currentBet;
             updateDisplay();
-            isSpinning = true;
 
-            const rtpFactor = calculateRTPOutcome();
-            const targetWin = currentBet * rtpFactor;
-            
             const reels = document.querySelectorAll('.symbols-container');
             const results = [];
             const spinPromises = [];
 
             reels.forEach((reel, index) => {
-                const basePosition = Math.floor(Math.random() * 100);
-                const rtpOffset = Math.floor((rtpFactor * 100) % symbols.length);
-                const finalPosition = (basePosition + rtpOffset) % symbols.length;
-                
-                const targetY = -(finalPosition * 150);
-                reel.style.transform = `translateY(${targetY}px)`;
+                const targetPosition = Math.floor(Math.random() * 100) * 150;
+                reel.style.transform = `translateY(-${targetPosition}px)`;
                 
                 spinPromises.push(new Promise(resolve => {
                     setTimeout(() => {
-                        const resultIndex = Math.abs(Math.floor(targetY / 150) % symbols.length);
+                        const resultIndex = Math.abs(Math.floor(targetPosition / 150) % symbols.length);
                         results[index] = symbols[resultIndex];
                         resolve();
                     }, 3000);
@@ -204,33 +228,18 @@
             });
 
             Promise.all(spinPromises).then(() => {
-                const winAmount = calculateWin(results, rtpFactor);
+                const winAmount = calculateWin(results);
                 credit += winAmount;
+                document.getElementById('win').textContent = winAmount.toLocaleString();
                 updateDisplay();
                 isSpinning = false;
+                toggleButtons(false);
             });
-        }
-
-        function calculateWin(results, rtpFactor) {
-            const symbolCounts = {};
-            results.forEach(symbol => {
-                symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
-            });
-
-            let winAmount = 0;
-            Object.entries(symbolCounts).forEach(([symbol, count]) => {
-                const basePayout = Math.floor(rtpFactor * currentBet);
-                
-                if(count >= 3) winAmount += basePayout * count;
-                if(count >= 5) winAmount += basePayout * 5;
-            });
-
-            document.getElementById('win').textContent = winAmount.toLocaleString();
-            return winAmount;
         }
 
         function adjustBet(amount) {
-            currentBet = Math.max(500, Math.min(500000, currentBet + amount));
+            if(isSpinning) return;
+            currentBet = Math.max(50000, Math.min(500000, currentBet + amount));
             updateDisplay();
         }
 
