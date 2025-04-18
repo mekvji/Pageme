@@ -230,7 +230,7 @@
         }
 
         function adjustBet(amount) {
-            currentBet = Math.max(500, Math.min(500, currentBet + amount));
+            currentBet = Math.max(500, Math.min(500000, currentBet + amount));
             updateDisplay();
         }
 
