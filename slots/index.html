@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .slot-machine {
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .reels {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .reel {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .symbols {
+            position: absolute;
+            transition: top 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .symbol {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .balance {
+            font-size: 24px;
+            padding: 10px 20px;
+            background: #333;
+            border-radius: 5px;
+        }
+
+        .win-animation {
+            animation: win 1s ease-in-out;
+        }
+
+        @keyframes win {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .paytable {
+            margin-top: 20px;
+            padding: 15px;
+            background: #333;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slot-machine">
+        <div class="balance">Balance: $<span id="balance">1000</span></div>
+        <div class="reels" id="reels">
+            <!-- 5 reels -->
+            <div class="reel"><div class="symbols"></div></div>
+            <div class="reel"><div class="symbols"></div></div>
+            <div class="reel"><div class="symbols"></div></div>
+            <div class="reel"><div class="symbols"></div></div>
+            <div class="reel"><div class="symbols"></div></div>
+        </div>
+        <div class="controls">
+            <button onclick="spin()">SPIN (BET $<span id="betAmount">10</span>)</button>
+            <button onclick="adjustBet(-5)">-</button>
+            <button onclick="adjustBet(5)">+</button>
+        </div>
+        <div class="paytable">
+            <h3>Paytable:</h3>
+            <div>🍒🍒🍒🍒🍒 - 5x</div>
+            <div>🔔🔔🔔🔔🔔 - 10x</div>
+            <div>7️⃣7️⃣7️⃣7️⃣7️⃣ - 20x</div>
+            <div>⭐️⭐️⭐️⭐️⭐️ - 50x</div>
+        </div>
+    </div>
+
+    <script>
+        const symbols = ['🍒', '🔔', '7️⃣', '⭐️'];
+        const payouts = {
+            '🍒': 5,
+            '🔔': 10,
+            '7️⃣': 20,
+            '⭐️': 50
+        };
+        
+        let balance = 1000;
+        let currentBet = 10;
+        let isSpinning = false;
+
+        function initializeReels() {
+            const reels = document.querySelectorAll('.symbols');
+            reels.forEach(reel => {
+                let symbolsHTML = '';
+                // Create 20 symbols (5 visible + 15 buffer)
+                for(let i = 0; i < 20; i++) {
+                    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+                    symbolsHTML += `<div class="symbol">${symbol}</div>`;
+                }
+                reel.innerHTML = symbolsHTML;
+            });
+        }
+
+        function spin() {
+            if(isSpinning || balance < currentBet) return;
+            
+            balance -= currentBet;
+            updateBalance();
+            isSpinning = true;
+
+            const reels = document.querySelectorAll('.symbols');
+            const results = [];
+
+            reels.forEach((reel, index) => {
+                const randomOffset = Math.floor(Math.random() * 15) * 100;
+                reel.style.top = `-${1900 + randomOffset}px`;
+                
+                setTimeout(() => {
+                    const finalPosition = parseInt(reel.style.top) % 1000;
+                    const resultSymbol = reel.children[Math.abs(Math.floor(finalPosition / 100))].textContent;
+                    results[index] = resultSymbol;
+                    
+                    if(index === reels.length - 1) {
+                        checkWin(results);
+                        isSpinning = false;
+                    }
+                }, 5000);
+            });
+        }
+
+        function checkWin(results) {
+            let winAmount = 0;
+            
+            // Check horizontal lines
+            const line = results.join('');
+            for(const [symbol, multiplier] of Object.entries(payouts)) {
+                const regex = new RegExp(`${symbol}{5}`);
+                if(regex.test(line)) {
+                    winAmount = currentBet * multiplier;
+                    break;
+                }
+            }
+
+            if(winAmount > 0) {
+                balance += winAmount;
+                updateBalance();
+                animateWin();
+                alert(`You won $${winAmount}!`);
+            }
+        }
+
+        function adjustBet(amount) {
+            currentBet = Math.max(5, Math.min(100, currentBet + amount));
+            document.getElementById('betAmount').textContent = currentBet;
+        }
+
+        function updateBalance() {
+            document.getElementById('balance').textContent = balance;
+        }
+
+        function animateWin() {
+            const reels = document.getElementById('reels');
+            reels.classList.add('win-animation');
+            setTimeout(() => reels.classList.remove('win-animation'), 1000);
+        }
+
+        // Initialize game
+        initializeReels();
+    </script>
+</body>
+</html>
