@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Slot Machine</title>
+    <title>Advanced RTP Slot Machine</title>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -20,14 +20,21 @@
             flex-direction: column;
             align-items: center;
             margin: 0;
-            overflow-x: hidden;
         }
 
         .slot-container {
             width: 95%;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 20px auto;
             position: relative;
+        }
+
+        .rtp-display {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
 
         .reels-grid {
@@ -37,7 +44,6 @@
             background: rgba(0,0,0,0.5);
             padding: 15px;
             border-radius: 15px;
-            box-shadow: 0 0 30px rgba(241,196,15,0.2);
         }
 
         .reel {
@@ -54,7 +60,7 @@
             width: 100%;
             height: 500%;
             transform-style: preserve-3d;
-            transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.36, 1.33);
         }
 
         .symbol {
@@ -104,30 +110,18 @@
         }
 
         @media (max-width: 768px) {
-            .reel {
-                height: 80px;
-            }
-            
-            .symbol {
-                font-size: 1.8em;
-            }
-            
-            .controls {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .sound-credits {
-            position: fixed;
-            bottom: 5px;
-            right: 5px;
-            font-size: 8px;
-            color: #666;
+            .reel { height: 100px; }
+            .symbol { font-size: 1.8em; }
+            .controls { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="slot-container">
+        <div class="rtp-display">
+            RTP: <span id="rtpValue">96.5%</span> | Volatilitas: Tinggi
+        </div>
+        
         <div class="info-panel">
             <div>Credit: Rp<span id="credit">1.000.000</span></div>
             <div>Bet: Rp<span id="bet">50.000</span></div>
@@ -149,122 +143,94 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script>
-        // Konfigurasi Sound Effect
-        const SoundManager = {
-            spin: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/11/14/audio_6c5dc3d381.mp3'], loop: true, volume: 0.7 }),
-            win: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2021/08/04/audio_0d5d4dc6e5.mp3'], volume: 0.8 }),
-            reelStop: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/01/18/audio_2d7a8b6c1a.mp3'], volume: 0.6 }),
-            buttonClick: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2021/08/04/audio_4f6d15aef7.mp3'], volume: 0.5 }),
-            coinInsert: new Howl({ src: ['https://cdn.pixabay.com/download/audio/2022/10/13/audio_9a8f8a1a6a.mp3'], volume: 0.7 })
-        };
-
-        // Konfigurasi Game
-        const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡', '💩'];
+        const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡', '🎰', '💰', '🔥', '⭐'];
+        const RTP = 96.5; // Dalam persen
+        const volatility = 0.15; // 0-1 (15% volatilitas)
+        
         let credit = 1000000;
         let currentBet = 50000;
         let isSpinning = false;
-        const reelCount = 5;
-        const symbolCount = 20;
 
-        // Inisialisasi Reel
         function initializeReels() {
             const reels = document.querySelectorAll('.symbols-container');
             reels.forEach(reel => {
                 let symbolsHTML = '';
-                for(let i = 0; i < symbolCount; i++) {
-                    const symbol = symbols[Math.floor(Math.random() * symbols.length)];
-                    symbolsHTML += `<div class="symbol">${symbol}</div>`;
+                for(let i = 0; i < 10; i++) {
+                    symbols.forEach(symbol => {
+                        symbolsHTML += `<div class="symbol">${symbol}</div>`;
+                    });
                 }
                 reel.innerHTML = symbolsHTML;
             });
         }
 
-        // Mekanisme Spin
+        function calculateRTPOutcome() {
+            const baseProbability = RTP / 100;
+            const rand = Math.random();
+            const outcome = rand * (1 + volatility * 2) + (1 - volatility);
+            return Math.min(outcome, 1);
+        }
+
         function spin() {
             if(isSpinning || credit < currentBet) return;
-            
-            SoundManager.buttonClick.play();
-            SoundManager.coinInsert.play();
-            SoundManager.spin.play();
             
             credit -= currentBet;
             updateDisplay();
             isSpinning = true;
 
+            const rtpFactor = calculateRTPOutcome();
+            const targetWin = currentBet * rtpFactor;
+            
             const reels = document.querySelectorAll('.symbols-container');
             const results = [];
             const spinPromises = [];
 
             reels.forEach((reel, index) => {
-                const randomPosition = Math.floor(Math.random() * (symbolCount * 5)) * 20;
-                reel.style.transform = `translateY(-${randomPosition}%)`;
+                const basePosition = Math.floor(Math.random() * 100);
+                const rtpOffset = Math.floor((rtpFactor * 100) % symbols.length);
+                const finalPosition = (basePosition + rtpOffset) % symbols.length;
+                
+                const targetY = -(finalPosition * 150);
+                reel.style.transform = `translateY(${targetY}px)`;
                 
                 spinPromises.push(new Promise(resolve => {
                     setTimeout(() => {
-                        const finalPosition = parseInt(reel.style.transform.split('-')[1]) % 100;
-                        const resultIndex = Math.floor(finalPosition / 20);
-                        results[index] = reel.children[resultIndex].textContent;
-                        SoundManager.reelStop.play();
+                        const resultIndex = Math.abs(Math.floor(targetY / 150) % symbols.length);
+                        results[index] = symbols[resultIndex];
                         resolve();
                     }, 3000);
                 }));
             });
 
             Promise.all(spinPromises).then(() => {
-                calculateWin(results);
+                const winAmount = calculateWin(results, rtpFactor);
+                credit += winAmount;
+                updateDisplay();
                 isSpinning = false;
-                SoundManager.spin.stop();
             });
         }
 
-        // Sistem Pembayaran
-        function calculateWin(results) {
+        function calculateWin(results, rtpFactor) {
+            const symbolCounts = {};
+            results.forEach(symbol => {
+                symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
+            });
+
             let winAmount = 0;
-            
-            // Jackpot 5 💎
-            if(results.every(s => s === '💎')) {
-                winAmount = currentBet * 20;
-            } 
-            else {
-                const counts = {};
-                results.forEach(symbol => {
-                    counts[symbol] = (counts[symbol] || 0) + 1;
-                });
+            Object.entries(symbolCounts).forEach(([symbol, count]) => {
+                const basePayout = Math.floor(rtpFactor * currentBet);
+                
+                if(count >= 3) winAmount += basePayout * count;
+                if(count >= 5) winAmount += basePayout * 5;
+            });
 
-                // Hitung untuk 💎
-                if(counts['💎']) {
-                    switch(counts['💎']) {
-                        case 4: winAmount += currentBet * 10; break;
-                        case 3: winAmount += currentBet * 6; break;
-                        case 2: winAmount += currentBet * 3; break;
-                    }
-                }
-
-                // Hitung untuk simbol lain
-                Object.entries(counts).forEach(([symbol, count]) => {
-                    if(symbol === '💎' || symbol === '💩') return;
-                    
-                    if(count >= 4) {
-                        winAmount += currentBet * 2;
-                    }
-                });
-            }
-
-            if(winAmount > 0) {
-                credit += winAmount;
-                document.getElementById('win').textContent = winAmount.toLocaleString();
-                SoundManager.win.play();
-                animateWin();
-            }
-            updateDisplay();
+            document.getElementById('win').textContent = winAmount.toLocaleString();
+            return winAmount;
         }
 
-        // Fungsi Bantuan
         function adjustBet(amount) {
             currentBet = Math.max(50000, Math.min(500000, currentBet + amount));
-            SoundManager.buttonClick.play();
             updateDisplay();
         }
 
@@ -273,22 +239,7 @@
             document.getElementById('bet').textContent = currentBet.toLocaleString();
         }
 
-        function animateWin() {
-            const reels = document.getElementById('reels');
-            reels.style.transform = 'scale(1.05)';
-            setTimeout(() => reels.style.transform = 'scale(1)', 200);
-        }
-
-        // Inisialisasi Game
-        window.onload = () => {
-            initializeReels();
-            Howler.autoUnlock = true;
-            Howler.autoSuspend = false;
-        };
+        window.onload = initializeReels;
     </script>
-
-    <div class="sound-credits">
-        Sound effects by Pixabay (CC0 License)
-    </div>
 </body>
 </html>
