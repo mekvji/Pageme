@@ -124,7 +124,7 @@
         
         <div class="info-panel">
             <div>Credit: Rp<span id="credit">1.000.000</span></div>
-            <div>Bet: Rp<span id="bet">50.000</span></div>
+            <div>Bet: Rp<span id="bet">500</span></div>
             <div>Win: Rp<span id="win">0</span></div>
         </div>
         
@@ -230,7 +230,7 @@
         }
 
         function adjustBet(amount) {
-            currentBet = Math.max(50000, Math.min(500000, currentBet + amount));
+            currentBet = Math.max(500, Math.min(500, currentBet + amount));
             updateDisplay();
         }
 
