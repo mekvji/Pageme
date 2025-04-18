@@ -1,0 +1,32 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Starter Cloud",
+            "description": "Perfect for personal projects and small websites",
+            "price": "9.99",
+            "features": ["1 vCPU", "2GB RAM", "50GB SSD", "1TB Transfer", "24/7 Support"]
+        },
+        {
+            "id": 2,
+            "name": "Business Cloud",
+            "description": "Ideal for growing businesses and applications",
+            "price": "29.99",
+            "features": ["4 vCPU", "8GB RAM", "200GB SSD", "5TB Transfer", "DDoS Protection", "Auto Backups"]
+        },
+        {
+            "id": 3,
+            "name": "Enterprise Cloud",
+            "description": "Enterprise-grade infrastructure for mission-critical applications",
+            "price": "99.99",
+            "features": ["8 vCPU", "16GB RAM", "500GB SSD", "10TB Transfer", "Priority Support", "Dedicated IP", "SSL Included"]
+        },
+        {
+            "id": 4,
+            "name": "Custom Cloud",
+            "description": "Fully customized solution for your specific needs",
+            "price": "Custom",
+            "features": ["Custom Hardware", "Scalable Resources", "Dedicated Engineer", "SLA 99.9%", "Hybrid Cloud Options"]
+        }
+    ]
+}
