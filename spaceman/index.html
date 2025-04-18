@@ -147,36 +147,38 @@
     </div>
 
     <script>
-        // Sound Effects (Base64 encoded short sounds)
+        // Sound Effects URLs (Ganti dengan path file audio Anda)
         const soundEffects = {
-            correct: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
-            wrong: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
-            win: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
-            lose: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU')
+            correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'),
+            wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2870/2870-preview.mp3'),
+            win: new Audio('https://assets.mixkit.co/active_storage/sfx/2868/2868-preview.mp3'),
+            lose: new Audio('https://assets.mixkit.co/active_storage/sfx/2871/2871-preview.mp3'),
+            background: new Audio('https://assets.mixkit.co/active_storage/sfx/2872/2872-preview.mp3'),
+            button: new Audio('https://assets.mixkit.co/active_storage/sfx/2873/2873-preview.mp3')
         };
 
         const wordsByLevel = [
             { // Level 1
                 words: [
-                    {word: 'MOON', clue: 'Earth natural satellite'},
-                    {word: 'STAR', clue: 'Celestial body that emits light'},
-                    {word: 'SUN', clue: 'Center of our solar system'}
+                    {word: 'MOON', clue: 'Satelit alami Bumi'},
+                    {word: 'STAR', clue: 'Benda langit yang berkelap-kelip'},
+                    {word: 'SUN', clue: 'Pusat tata surya kita'}
                 ],
                 maxMistakes: 6
             },
             { // Level 2
                 words: [
-                    {word: 'ORBIT', clue: 'Path of a celestial body'},
-                    {word: 'COMET', clue: 'Icy solar system body'},
-                    {word: 'MARS', clue: 'Red planet'}
+                    {word: 'ORBIT', clue: 'Jalur edar benda langit'},
+                    {word: 'COMET', clue: 'Benda langit berekor panjang'},
+                    {word: 'MARS', clue: 'Planet merah'}
                 ],
                 maxMistakes: 5
             },
             { // Level 3
                 words: [
-                    {word: 'GALAXY', clue: 'Huge system of stars'},
-                    {word: 'ROCKET', clue: 'Space vehicle'},
-                    {word: 'ASTEROID', clue: 'Rocky solar system body'}
+                    {word: 'GALAXY', clue: 'Kumpulan milyaran bintang'},
+                    {word: 'ROCKET', clue: 'Kendaraan peluncur ke angkasa'},
+                    {word: 'ASTEROID', clue: 'Batuan angkasa antara Mars dan Jupiter'}
                 ],
                 maxMistakes: 4
             }
@@ -188,22 +190,35 @@
         let mistakes = 0;
         let gameActive = true;
 
+        function playSound(soundName) {
+            try {
+                const sfx = soundEffects[soundName].cloneNode(true);
+                sfx.volume = 0.3;
+                sfx.play();
+            } catch (e) {
+                console.log('Error playing sound:', e);
+            }
+        }
+
         function initializeKeyboard() {
             const keyboard = document.getElementById('keyboard');
             keyboard.innerHTML = '';
             
-            for (let i = 65; i <= 90; i++) {
-                const letter = String.fromCharCode(i);
+            'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
                 const button = document.createElement('div');
                 button.className = 'letter';
                 button.textContent = letter;
-                button.onclick = () => gameActive && guessLetter(letter);
+                button.onclick = () => {
+                    if(gameActive) {
+                        playSound('button');
+                        guessLetter(letter);
+                    }
+                };
                 keyboard.appendChild(button);
-            }
+            });
         }
 
         function updateGameDisplay() {
-            // Update spaceman visual
             const spacemanStates = [
                 '   🌌\n   🚀\n   👨🚀',
                 '   🌌\n   💥\n   /|\\',
@@ -215,20 +230,17 @@
             ];
             document.getElementById('spaceman').textContent = spacemanStates[mistakes];
             
-            // Update oxygen level
             const oxygenPercentage = 100 - (mistakes/wordsByLevel[currentLevel].maxMistakes)*100;
             document.getElementById('oxygen-level').style.width = `${oxygenPercentage}%`;
             
-            // Update word display
             document.getElementById('word-display').textContent = 
                 selectedWord.word.split('').map(l => guessedLetters.includes(l) ? l : '_').join(' ');
             
-            // Update clue
             document.getElementById('clue').textContent = `Clue: ${selectedWord.clue}`;
         }
 
         function guessLetter(letter) {
-            if (guessedLetters.includes(letter) return;
+            if (guessedLetters.includes(letter)) return;
 
             guessedLetters.push(letter);
             const letterElement = [...document.getElementsByClassName('letter')]
@@ -238,16 +250,16 @@
             
             if (!selectedWord.word.includes(letter)) {
                 mistakes++;
-                soundEffects.wrong.play().catch(() => {});
+                playSound('wrong');
                 if (mistakes >= wordsByLevel[currentLevel].maxMistakes) {
                     gameActive = false;
-                    soundEffects.lose.play().catch(() => {});
+                    playSound('lose');
                     document.getElementById('message').textContent = 
-                        `Game Over! The word was: ${selectedWord.word}`;
+                        `Game Over! Kata yang benar: ${selectedWord.word}`;
                     document.getElementById('message').style.color = 'var(--danger-color)';
                 }
             } else {
-                soundEffects.correct.play().catch(() => {});
+                playSound('correct');
             }
 
             updateGameDisplay();
@@ -257,8 +269,8 @@
         function checkWinCondition() {
             if (selectedWord.word.split('').every(l => guessedLetters.includes(l))) {
                 gameActive = false;
-                soundEffects.win.play().catch(() => {});
-                document.getElementById('message').textContent = 'Level Complete!';
+                playSound('win');
+                document.getElementById('message').textContent = 'Level Berhasil!';
                 document.getElementById('message').style.color = 'var(--success-color)';
                 currentLevel = Math.min(currentLevel + 1, wordsByLevel.length - 1);
                 document.getElementById('level').textContent = currentLevel + 1;
@@ -277,6 +289,7 @@
                 btn.classList.remove('used')
             );
             
+            playSound('background');
             updateGameDisplay();
         }
 
@@ -288,8 +301,10 @@
         });
 
         // Initialize game
-        initializeKeyboard();
-        startGame();
+        window.onload = () => {
+            initializeKeyboard();
+            startGame();
+        };
     </script>
 </body>
 </html>
