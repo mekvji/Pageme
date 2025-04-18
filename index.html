@@ -3,357 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pteroware - Premium Cloud Solutions</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Cloud Platform</title>
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --dark-bg: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text-light: #f8fafc;
-            --text-secondary: #94a3b8;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
         }
 
         body {
-            background: var(--dark-bg);
-            color: var(--text-light);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Navigation */
-        .navbar {
-            background: rgba(15, 23, 42, 0.95) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link {
-            position: relative;
-            padding: 0.5rem 1.2rem !important;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary-gradient);
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-            left: 0;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: var(--primary-gradient),
-                        url('https://images.unsplash.com/photo-1480694313141-fce5e697ee25') center/cover;
-            padding: 8rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-overlay {
+        .clouds {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            z-index: 1;
         }
 
-        /* Product Cards */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            animation: float 40s infinite linear;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(20px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 2;
+        }
+
+        .content {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease-out 0.3s forwards;
+        }
+
+        .cta-button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #00b4d8, #0077b6);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s ease-out 0.6s forwards;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .products {
+            position: relative;
+            padding: 100px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .product-card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(12px);
+            color: white;
         }
 
         .product-card:hover {
-            transform: translateY(-0.5rem);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .price-badge {
-            background: var(--primary-gradient);
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-weight: 600;
+        .product-card h3 {
+            color: #00b4d8;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
         }
 
-        /* Feature List */
-        .feature-list li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .product-price {
+            font-size: 2rem;
+            margin: 15px 0;
+            color: #00b4d8;
         }
 
-        /* Comparison Table */
-        .comparison-table {
-            border-radius: 1rem;
-            overflow: hidden;
-        }
-        
-        .comparison-table th {
-            background: var(--primary-gradient);
-            padding: 1.5rem;
+        .product-features {
+            list-style: none;
+            margin: 15px 0;
+            padding: 0;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .product-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Hover Effects */
-        .hover-scale {
-            transition: transform 0.3s ease;
-        }
-
-        .hover-scale:hover {
-            transform: scale(1.02);
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .products {
+                padding: 50px 20px;
+            }
         }
     </style>
 </head>
-<body class="bg-dark text-light">
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand fs-3 fw-bold" href="#">
-            <i class="fas fa-rocket me-2"></i>Pteroware
-        </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
-        </div>
+<body>
+    <div class="clouds">
+        <div class="cloud" style="width: 200px; height: 60px; top: 20%; left: 10%; animation-delay: 0s"></div>
+        <div class="cloud" style="width: 150px; height: 50px; top: 40%; right: 15%; animation-delay: -5s"></div>
+        <div class="cloud" style="width: 180px; height: 55px; top: 60%; left: 30%; animation-delay: -10s"></div>
     </div>
-</nav>
 
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="container text-center position-relative py-8">
-        <h1 class="display-3 fw-bold mb-4 animate-fade-in">Enterprise-Grade Cloud Solutions</h1>
-        <p class="lead fs-4 mb-5 text-light animate-fade-in" style="animation-delay: 0.2s">
-            High-performance infrastructure with 99.999% uptime SLA
-        </p>
-        <div class="d-flex gap-3 justify-content-center animate-fade-in" style="animation-delay: 0.4s">
-            <a href="#products" class="btn btn-light btn-lg px-5">Get Started</a>
-            <a href="#contact" class="btn btn-outline-light btn-lg px-5">Demo</a>
+    <section class="hero">
+        <div class="content">
+            <h1>Cloud Platform</h1>
+            <p>Deploy your applications with ease on our powerful cloud infrastructure</p>
+            <button class="cta-button">Get Started</button>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Products Section -->
-<section id="products" class="py-5">
-    <div class="container">
-        <div class="text-center mb-6">
-            <h2 class="display-5 fw-bold mb-3">Cloud Hosting Solutions</h2>
-            <p class="text-secondary">Choose from our wide range of optimized hosting solutions</p>
-        </div>
+    <section class="products">
+        <div class="products-container" id="productsContainer"></div>
+    </section>
 
-        <!-- Shared Hosting -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-share-alt me-2"></i>Shared Hosting</h3>
-            <div class="col-lg-3 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <span class="badge bg-primary">Popular</span>
-                        <div class="price-badge">$5<span class="fs-6">/mo</span></div>
-                    </div>
-                    <h4 class="mb-4">Starter</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>1 vCPU Core</li>
-                        <li><i class="fas fa-memory me-2"></i>1GB DDR4 RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>20GB NVMe Storage</li>
-                        <li><i class="fas fa-tachometer-alt me-2"></i>1TB Bandwidth</li>
-                        <li><i class="fas fa-shield-alt me-2"></i>Basic DDoS Protection</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary w-100 mt-4">Order Now</a>
-                </div>
-            </div>
+    <script>
+        function createClouds() {
+            const cloudsContainer = document.querySelector('.clouds');
+            for (let i = 0; i < 5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.style.width = Math.random() * 100 + 150 + 'px';
+                cloud.style.height = Math.random() * 30 + 40 + 'px';
+                cloud.style.top = Math.random() * 80 + 10 + '%';
+                cloud.style.left = Math.random() * 100 + '%';
+                cloud.style.animationDelay = Math.random() * -20 + 's';
+                cloudsContainer.appendChild(cloud);
+            }
+        }
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('products.json');
+                const data = await response.json();
+                displayProducts(data.products);
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
             
-            <!-- Add other hosting plans with similar structure -->
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                const featuresList = product.features.map(feature => 
+                    `<li>${feature}</li>`
+                ).join('');
+                
+                productCard.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="product-price">$${product.price}/mo</div>
+                    <ul class="product-features">${featuresList}</ul>
+                `;
+                
+                container.appendChild(productCard);
+            });
+        }
 
-        </div>
-
-        <!-- VPS Hosting -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-server me-2"></i>VPS Hosting</h3>
-            <div class="col-lg-4 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-primary">🇺🇸 USA</span>
-                            <span class="badge bg-primary">🇸🇬 SG</span>
-                        </div>
-                        <div class="price-badge">$45<span class="fs-6">/mo</span></div>
-                    </div>
-                    <h4 class="mb-4">Business VPS</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>4 vCPU Cores</li>
-                        <li><i class="fas fa-memory me-2"></i>8GB DDR4 RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>160GB NVMe Storage</li>
-                        <li><i class="fas fa-network-wired me-2"></i>5TB Bandwidth</li>
-                        <li><i class="fas fa-shield-alt me-2"></i>Advanced DDoS Protection</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary w-100 mt-4">Order Now</a>
-                </div>
-            </div>
-            
-            <!-- Add other VPS plans -->
-
-        </div>
-
-        <!-- Dedicated Servers -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-database me-2"></i>Dedicated Servers</h3>
-            <div class="col-lg-4 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="price-badge bg-dark">$299<span class="fs-6">/mo</span></div>
-                    <h4 class="my-4">Enterprise X1</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>Dual Xeon Silver 4210</li>
-                        <li><i class="fas fa-memory me-2"></i>128GB ECC RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>2x1TB NVMe RAID 1</li>
-                        <li><i class="fas fa-network-wired me-2"></i>10Gbps Port</li>
-                        <li><i class="fas fa-certificate me-2"></i>24/7 Priority Support</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary w-100 mt-4">Customize</a>
-                </div>
-            </div>
-            
-            <!-- Add other dedicated servers -->
-
-        </div>
-
-        <!-- Additional Services -->
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="product-card p-4 h-100">
-                    <h3 class="h4 fw-bold mb-4"><i class="fas fa-globe me-2"></i>Domain Registration</h3>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <div class="p-3 bg-dark rounded hover-scale">
-                                <div class="fw-bold">.com</div>
-                                <div class="text-success">$12.99/yr</div>
-                            </div>
-                        </div>
-                        <!-- Add more domain extensions -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="product-card p-4 h-100">
-                    <h3 class="h4 fw-bold mb-4"><i class="fas fa-lock me-2"></i>Security Solutions</h3>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <div class="p-3 bg-dark rounded hover-scale">
-                                <div class="fw-bold">Premium SSL</div>
-                                <div class="text-success">$89/yr</div>
-                            </div>
-                        </div>
-                        <!-- Add more security products -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Comparison Table -->
-<section class="py-5 bg-dark">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold">Plan Comparison</h2>
-            <p class="text-secondary">Detailed comparison of our hosting solutions</p>
-        </div>
-        
-        <div class="table-responsive comparison-table">
-            <table class="table table-dark table-borderless">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Starter</th>
-                        <th>Business</th>
-                        <th>Enterprise</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>CPU Cores</td>
-                        <td>1</td>
-                        <td>4</td>
-                        <td>16</td>
-                    </tr>
-                    <!-- Add more comparison rows -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="py-5">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-6">
-                <div class="product-card p-5 h-100">
-                    <h2 class="display-6 fw-bold mb-4">Technical Support</h2>
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="icon-box bg-primary rounded-circle p-3 me-3">
-                            <i class="fas fa-headset fa-2x"></i>
-                        </div>
-                        <div>
-                            <h5>24/7 Support</h5>
-                            <p class="mb-0 text-secondary">+1 (800) 555-0199</p>
-                        </div>
-                    </div>
-                    <!-- Add more contact methods -->
-                </div>
-            </div>
-            
-            <div class="col-lg-6">
-                <!-- Contact form -->
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-black py-5">
-    <div class="container">
-        <div class="row g-5">
-            <div class="col-lg-3">
-                <h5 class="fw-bold mb-3">Pteroware</h5>
-                <p class="text-secondary">Enterprise cloud solutions provider since 2015</p>
-            </div>
-            <!-- Add footer sections -->
-        </div>
-        <hr class="my-5">
-        <div class="text-center text-secondary">
-            <p class="mb-0">&copy; 2023 Pteroware. All rights reserved</p>
-        </div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        window.onload = () => {
+            createClouds();
+            loadProducts();
+        };
+    </script>
 </body>
 </html>
