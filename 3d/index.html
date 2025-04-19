@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudSpace - Cloud Server Solutions</title>
+    <title>CloudSphere - Premium Cloud Hosting</title>
     <style>
         * {
             margin: 0;
@@ -12,8 +12,8 @@
         }
 
         body {
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         canvas {
@@ -23,6 +23,31 @@
             z-index: -1;
         }
 
+        /* Logo Styles */
+        .logo-container {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2196F3 30%, #64B5F6 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Main Content */
         .content {
             position: relative;
             height: 100vh;
@@ -31,99 +56,170 @@
             justify-content: center;
             align-items: flex-start;
             color: white;
-            padding: 5% 10%;
+            padding: 2rem;
+        }
+
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, #2196F3, #64B5F6);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #fff 30%, #64B5F6 70%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #a0d4ff;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* Features Grid */
         .features {
-            display: flex;
-            gap: 30px;
-            margin: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            width: 100%;
+            max-width: 1200px;
         }
 
         .feature-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
-            width: 250px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
         }
 
+        /* CTA Button */
         .cta-button {
-            padding: 15px 40px;
-            font-size: 1.2em;
-            background: linear-gradient(45deg, #2196F3, #64B5F6);
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #2196F3, #64B5F6);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .stats {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            text-align: right;
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
         }
 
-        .server-hud {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            gap: 15px;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-container {
+                top: 1.5rem;
+                left: 1.5rem;
+            }
+            
+            .logo {
+                width: 35px;
+                height: 35px;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
+            }
+
+            .content {
+                padding: 1rem;
+                justify-content: flex-start;
+                padding-top: 6rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .server-hud {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hud-item {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+            }
         }
 
-        .hud-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 8px;
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Logo -->
+    <div class="logo-container">
+        <svg class="logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 0L44.7846 12V36L24 48L3.21538 36V12L24 0Z" fill="url(#gradient)"/>
+            <path d="M24 15L34.5 21V33L24 39L13.5 33V21L24 15Z" fill="white"/>
+            <path d="M24 21L30 24.6V31.2L24 34.8L18 31.2V24.6L24 21Z" fill="#2196F3"/>
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#2196F3"/>
+                    <stop offset="100%" stop-color="#64B5F6"/>
+                </linearGradient>
+            </defs>
+        </svg>
+        <span class="logo-text">CloudSphere</span>
+    </div>
+
     <div class="content">
-        <div class="stats">
-            <div class="hud-item">🌍 15 Data Centers</div>
-        </div>
-        
-        <h1>Enterprise Cloud Solutions</h1>
-        <p>High-performance cloud servers with 99.99% uptime guarantee</p>
-        
-        <div class="features">
-            <div class="feature-card">
-                <h3>⚡ Instant Scaling</h3>
-                <p>Scale your resources up or down in real-time</p>
+        <div class="hero">
+            <h1>Enterprise-Grade Cloud Infrastructure</h1>
+            <p class="subtitle">Deploy high-performance cloud servers in seconds with 99.999% SLA guarantee</p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🚀 Instant Deployment</h3>
+                    <p>Spin up new instances in 15 seconds worldwide</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 Secure by Design</h3>
+                    <p>Military-grade encryption and DDoS protection</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💾 NVMe Storage</h3>
+                    <p>High-performance SSD storage with RAID 10</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <h3>🔒 Military-Grade Security</h3>
-                <p>Enterprise-level protection for your data</p>
-            </div>
-            <div class="feature-card">
-                <h3>💾 SSD Storage</h3>
-                <p>High-speed NVMe storage solutions</p>
-            </div>
-        </div>
 
-        <button class="cta-button">Start Free Trial</button>
-
-        <div class="server-hud">
-            <div class="hud-item">🔄 99.99% Uptime</div>
-            <div class="hud-item">📈 1M+ Instances</div>
-            <div class="hud-item">⏱️ 24/7 Support</div>
+            <button class="cta-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M22 12H2"/>
+                </svg>
+                Start Free Trial
+            </button>
         </div>
     </div>
 
@@ -132,112 +228,100 @@
         // Three.js Configuration
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer({ 
+            antialias: true,
+            alpha: true
+        });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
-        // Create Server Node Visualization
-        const serverGeometry = new THREE.SphereGeometry(0.5, 32, 32);
-        const serverMaterial = new THREE.MeshPhongMaterial({
-            color: 0x2196F3,
-            transparent: true,
-            opacity: 0.8
-        });
+        // Data Center Visualization
+        const createServerNode = (x, y, z) => {
+            const geometry = new THREE.CylinderGeometry(0.4, 0.4, 1.5, 32);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x2196F3,
+                transparent: true,
+                opacity: 0.9
+            });
+            const node = new THREE.Mesh(geometry, material);
+            node.position.set(x, y, z);
+            return node;
+        };
 
-        const nodes = [];
-        const connections = [];
-        const nodeCount = 30;
+        // Create Server Racks
+        const serverNodes = [];
+        const rackCount = 15;
 
-        // Create Network Nodes
-        for(let i = 0; i < nodeCount; i++) {
-            const node = new THREE.Mesh(serverGeometry, serverMaterial);
-            node.position.set(
+        for(let i = 0; i < rackCount; i++) {
+            const rack = new THREE.Group();
+            const nodesInRack = 5 + Math.floor(Math.random() * 3);
+            
+            for(let j = 0; j < nodesInRack; j++) {
+                const node = createServerNode(
+                    (Math.random() - 0.5) * 2,
+                    j * 0.6,
+                    (Math.random() - 0.5) * 2
+                );
+                rack.add(node);
+            }
+            
+            rack.position.set(
                 (Math.random() - 0.5) * 40,
-                (Math.random() - 0.5) * 20,
+                -5,
                 (Math.random() - 0.5) * 40
             );
-            nodes.push(node);
-            scene.add(node);
+            serverNodes.push(rack);
+            scene.add(rack);
         }
 
-        // Create Network Connections
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x64B5F6, transparent: true, opacity: 0.3 });
-        for(let i = 0; i < nodeCount; i++) {
-            for(let j = i + 1; j < nodeCount; j++) {
-                if(Math.random() > 0.8) {
-                    const geometry = new THREE.BufferGeometry().setFromPoints([
-                        nodes[i].position,
-                        nodes[j].position
-                    ]);
-                    const line = new THREE.Line(geometry, lineMaterial);
-                    connections.push(line);
-                    scene.add(line);
-                }
-            }
-        }
+        // Network Connections
+        const createConnection = (start, end) => {
+            const geometry = new THREE.BufferGeometry().setFromPoints([start, end]);
+            const material = new THREE.LineBasicMaterial({
+                color: 0x64B5F6,
+                transparent: true,
+                opacity: 0.3
+            });
+            return new THREE.Line(geometry, material);
+        };
 
         // Add Lighting
         const ambientLight = new THREE.AmbientLight(0x404040);
         scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-        pointLight.position.set(0, 10, 10);
-        scene.add(pointLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(0, 10, 5);
+        scene.add(directionalLight);
 
-        camera.position.z = 25;
-
-        // Data Flow Particles
-        const particleGeometry = new THREE.BufferGeometry();
-        const particleCount = 2000;
-        const posArray = new Float32Array(particleCount * 3);
-
-        for(let i = 0; i < particleCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 50;
-        }
-
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-        const particleMaterial = new THREE.PointsMaterial({
-            size: 0.1,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.5
-        });
-
-        const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
+        camera.position.set(0, 15, 30);
+        camera.lookAt(0, 0, 0);
 
         // Animation Loop
         function animate() {
             requestAnimationFrame(animate);
 
-            // Animate Nodes
-            nodes.forEach((node, idx) => {
-                node.position.y += Math.sin(Date.now() * 0.001 + idx) * 0.02;
-                node.rotation.x += 0.01;
-                node.rotation.y += 0.01;
+            serverNodes.forEach((rack, idx) => {
+                rack.rotation.y += 0.005;
+                rack.position.y = Math.sin(Date.now() * 0.001 + idx) * 0.5 - 5;
             });
-
-            // Animate Particles
-            particles.rotation.x += 0.001;
-            particles.rotation.y += 0.002;
 
             renderer.render(scene, camera);
         }
 
-        // Handle Resize
+        // Responsive Handling
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Parallax Effect
-        document.addEventListener('mousemove', (e) => {
-            camera.position.x = (e.clientX - window.innerWidth/2) * 0.0005;
-            camera.position.y = (e.clientY - window.innerHeight/2) * -0.0005;
-            camera.lookAt(scene.position);
-        });
+        // Mobile Detection
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if(isMobile) {
+            camera.position.set(0, 10, 25);
+            renderer.setPixelRatio(1);
+        }
 
         animate();
     </script>
