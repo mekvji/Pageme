@@ -140,7 +140,7 @@
         
         <div class="info-panel">
             <div>Credit: Rp<span id="credit">1.000.000</span></div>
-            <div>Bet: Rp<span id="bet">50.000</span></div>
+            <div>Bet: Rp<span id="bet">500</span></div>
             <div>Win: Rp<span id="win">0</span></div>
         </div>
         
@@ -153,9 +153,9 @@
         </div>
 
         <div class="controls">
-            <button onclick="adjustBet(-50000)" id="betDown">- Bet</button>
+            <button onclick="adjustBet(-500)" id="betDown">- Bet</button>
             <button onclick="spin()" id="spinBtn">SPIN</button>
-            <button onclick="adjustBet(50000)" id="betUp">+ Bet</button>
+            <button onclick="adjustBet(500)" id="betUp">+ Bet</button>
         </div>
     </div>
 
@@ -163,7 +163,7 @@
         const symbols = ['🍒', '🔔', '7️⃣', '💎', '🍀', '⚡', '🎰', '💰', '🔥', '⭐'];
         const RTP = 96.5;
         let credit = 1000000;
-        let currentBet = 50000;
+        let currentBet = 500;
         let isSpinning = false;
 
         function initializeReels() {
@@ -239,7 +239,7 @@
 
         function adjustBet(amount) {
             if(isSpinning) return;
-            currentBet = Math.max(50000, Math.min(500000, currentBet + amount));
+            currentBet = Math.max(500, Math.min(500000, currentBet + amount));
             updateDisplay();
         }
 
