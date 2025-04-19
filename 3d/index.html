@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Landing Page</title>
+    <title>CloudSpace - Cloud Server Solutions</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             overflow: hidden;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         canvas {
@@ -29,122 +29,210 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             color: white;
-            text-align: center;
-            padding: 20px;
+            padding: 5% 10%;
         }
 
         h1 {
-            font-size: 4em;
+            font-size: 3.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(90deg, #2196F3, #64B5F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .btn {
+        .features {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cta-button {
             padding: 15px 40px;
             font-size: 1.2em;
-            background: #00ff88;
+            background: linear-gradient(45deg, #2196F3, #64B5F6);
             border: none;
-            border-radius: 30px;
+            border-radius: 5px;
+            color: white;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
 
-        .btn:hover {
-            transform: scale(1.1);
+        .stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+        }
+
+        .server-hud {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .hud-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <h1>Welcome to the Future</h1>
-        <p>Explore the next generation of web experiences</p>
-        <button class="btn">Get Started</button>
+        <div class="stats">
+            <div class="hud-item">🌍 15 Data Centers</div>
+        </div>
+        
+        <h1>Enterprise Cloud Solutions</h1>
+        <p>High-performance cloud servers with 99.99% uptime guarantee</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>⚡ Instant Scaling</h3>
+                <p>Scale your resources up or down in real-time</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔒 Military-Grade Security</h3>
+                <p>Enterprise-level protection for your data</p>
+            </div>
+            <div class="feature-card">
+                <h3>💾 SSD Storage</h3>
+                <p>High-speed NVMe storage solutions</p>
+            </div>
+        </div>
+
+        <button class="cta-button">Start Free Trial</button>
+
+        <div class="server-hud">
+            <div class="hud-item">🔄 99.99% Uptime</div>
+            <div class="hud-item">📈 1M+ Instances</div>
+            <div class="hud-item">⏱️ 24/7 Support</div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Three.js setup
+        // Three.js Configuration
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Create floating cubes
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshPhongMaterial({
-            color: 0x00ff88,
-            wireframe: true
+        // Create Server Node Visualization
+        const serverGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const serverMaterial = new THREE.MeshPhongMaterial({
+            color: 0x2196F3,
+            transparent: true,
+            opacity: 0.8
         });
 
-        const cubes = [];
-        const cubeCount = 20;
+        const nodes = [];
+        const connections = [];
+        const nodeCount = 30;
 
-        for(let i = 0; i < cubeCount; i++) {
-            const cube = new THREE.Mesh(geometry, material);
-            cube.position.x = (Math.random() - 0.5) * 20;
-            cube.position.y = (Math.random() - 0.5) * 20;
-            cube.position.z = (Math.random() - 0.5) * 20;
-            cubes.push(cube);
-            scene.add(cube);
+        // Create Network Nodes
+        for(let i = 0; i < nodeCount; i++) {
+            const node = new THREE.Mesh(serverGeometry, serverMaterial);
+            node.position.set(
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 20,
+                (Math.random() - 0.5) * 40
+            );
+            nodes.push(node);
+            scene.add(node);
         }
 
-        // Add lights
-        const light = new THREE.PointLight(0xffffff, 1, 100);
-        light.position.set(0, 10, 10);
-        scene.add(light);
+        // Create Network Connections
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x64B5F6, transparent: true, opacity: 0.3 });
+        for(let i = 0; i < nodeCount; i++) {
+            for(let j = i + 1; j < nodeCount; j++) {
+                if(Math.random() > 0.8) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints([
+                        nodes[i].position,
+                        nodes[j].position
+                    ]);
+                    const line = new THREE.Line(geometry, lineMaterial);
+                    connections.push(line);
+                    scene.add(line);
+                }
+            }
+        }
 
+        // Add Lighting
         const ambientLight = new THREE.AmbientLight(0x404040);
         scene.add(ambientLight);
 
-        camera.position.z = 15;
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+        pointLight.position.set(0, 10, 10);
+        scene.add(pointLight);
 
-        // Add particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
-        const posArray = new Float32Array(particlesCount * 3);
+        camera.position.z = 25;
 
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+        // Data Flow Particles
+        const particleGeometry = new THREE.BufferGeometry();
+        const particleCount = 2000;
+        const posArray = new Float32Array(particleCount * 3);
+
+        for(let i = 0; i < particleCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
         }
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0xffffff
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.1,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.5
         });
 
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particles);
 
-        // Animation loop
+        // Animation Loop
         function animate() {
             requestAnimationFrame(animate);
 
-            // Rotate cubes
-            cubes.forEach((cube, idx) => {
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
-                cube.position.y += Math.sin(Date.now() * 0.001 + idx) * 0.002;
+            // Animate Nodes
+            nodes.forEach((node, idx) => {
+                node.position.y += Math.sin(Date.now() * 0.001 + idx) * 0.02;
+                node.rotation.x += 0.01;
+                node.rotation.y += 0.01;
             });
 
-            // Rotate particles
-            particlesMesh.rotation.y += 0.001;
+            // Animate Particles
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
 
             renderer.render(scene, camera);
         }
 
-        // Handle window resize
+        // Handle Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Mouse movement interaction
+        // Parallax Effect
         document.addEventListener('mousemove', (e) => {
             camera.position.x = (e.clientX - window.innerWidth/2) * 0.0005;
             camera.position.y = (e.clientY - window.innerHeight/2) * -0.0005;
