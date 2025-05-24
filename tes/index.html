@@ -1,4 +1,109 @@
-<!-- Di bagian checkout modal -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pteroware - Premium Cloud Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --dark-bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Cart Icon */
+        #cart-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-gradient);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Checkout Modal */
+        #checkout-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1001;
+        }
+
+        .btn-outline-secondary {
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .btn-outline-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
+
+        /* ... (CSS lainnya tetap sama) ... */
+    </style>
+</head>
+<body class="bg-dark text-light">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand fs-3 fw-bold" href="#">
+            <i class="fas fa-rocket me-2"></i>Pteroware
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Cart Icon -->
+<div id="cart-icon">
+    🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- Checkout Modal -->
 <div id="checkout-modal">
     <h3 class="mb-4">🛒 Checkout</h3>
     <div id="cart-items" class="mb-4"></div>
@@ -19,14 +124,97 @@
     </div>
 </div>
 
-<!-- Tambahkan fungsi closeCheckoutModal di script -->
+<!-- ... (Bagian HTML lainnya tetap sama) ... -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function closeCheckoutModal() {
-        document.getElementById('checkout-modal').style.display = 'none';
-        document.getElementById('tg-username').value = ''; // Reset input
+    // Cart System
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    function updateCartCount() {
+        document.getElementById('cart-count').textContent = cart.length;
     }
 
-    // Update fungsi onclick window
+    // Add to Cart
+    document.querySelectorAll('.btn-primary').forEach(button => {
+        button.addEventListener('click', (e) => {
+            if(button.classList.contains('add-to-cart')) return;
+            
+            e.preventDefault();
+            const productCard = e.target.closest('.product-card');
+            const product = {
+                id: productCard.querySelector('.price-badge').textContent,
+                name: productCard.querySelector('h4').textContent,
+                price: productCard.querySelector('.price-badge').textContent.match(/\d+/)[0]
+            };
+            
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showCheckoutModal();
+        });
+    });
+
+    // Show Checkout Modal
+    function showCheckoutModal() {
+        const modal = document.getElementById('checkout-modal');
+        modal.style.display = 'block';
+        
+        document.getElementById('cart-items').innerHTML = cart
+            .map(item => `
+                <div class="d-flex justify-content-between mb-2">
+                    <div>${item.name}</div>
+                    <div>$${item.price}</div>
+                </div>`
+            ).join('');
+    }
+
+    // Close Modal
+    function closeCheckoutModal() {
+        document.getElementById('checkout-modal').style.display = 'none';
+        document.getElementById('tg-username').value = '';
+    }
+
+    // Process Checkout
+    async function processCheckout() {
+        const tgUsername = document.getElementById('tg-username').value;
+        const BOT_TOKEN = 'GANTI_TOKEN_BOT_ANDA';
+        const CHAT_ID = 'GANTI_CHAT_ID_ANDA';
+
+        if(!tgUsername.startsWith('@')) {
+            return alert('Username Telegram harus dimulai dengan @');
+        }
+
+        const message = `📥 **New Order**\n\n` +
+            `From: ${tgUsername}\n` +
+            `Items:\n${cart.map(item => `- ${item.name} ($${item.price})`).join('\n')}\n` +
+            `Total: $${cart.reduce((sum, item) => sum + +item.price, 0)}`;
+
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            });
+
+            cart = [];
+            localStorage.removeItem('cart');
+            updateCartCount();
+            closeCheckoutModal();
+            alert('✅ Pesanan berhasil! Admin akan menghubungi via Telegram.');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Gagal mengirim pesanan');
+        }
+    }
+
+    // Initial Setup
+    updateCartCount();
+    
     window.onclick = function(event) {
         const modal = document.getElementById('checkout-modal');
         if (event.target === modal) {
@@ -34,16 +222,5 @@
         }
     }
 </script>
-
-<!-- Tambahkan style untuk tombol batal -->
-<style>
-    .btn-outline-secondary {
-        border-color: rgba(255, 255, 255, 0.1);
-        color: var(--text-secondary);
-    }
-    
-    .btn-outline-secondary:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--text-light);
-    }
-</style>
+</body>
+</html>
