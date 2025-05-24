@@ -3,297 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pteroware - Premium Cloud Solutions</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet>
+    <title>WhatsApp-like UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --dark-bg: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text-light: #f8fafc;
-            --text-secondary: #94a3b8;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            background: var(--dark-bg);
-            color: var(--text-light);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #e5ddd5;
+            height: 100vh;
         }
 
-        .navbar {
-            background: rgba(15, 23, 42, 0.95) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .container {
+            display: flex;
+            height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
-        #cart-icon {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary-gradient);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
+        /* Chat List */
+        .chat-list {
+            width: 30%;
+            border-right: 1px solid #e9edef;
+            background: #f0f2f5;
+        }
+
+        .chat-header {
+            padding: 15px;
+            background: #008069;
+            color: white;
             display: flex;
             align-items: center;
-            justify-content: center;
+        }
+
+        .chat-header i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .chat-item {
+            display: flex;
+            padding: 12px;
+            border-bottom: 1px solid #e9edef;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transition: transform 0.3s ease;
         }
 
-        #cart-icon:hover {
-            transform: scale(1.1);
+        .chat-item:hover {
+            background: #f5f6f6;
         }
 
-        #checkout-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 1rem;
-            width: 90%;
-            max-width: 500px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1001;
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            background: #ddd;
         }
 
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(12px);
+        .chat-info {
+            flex-grow: 1;
         }
 
-        .product-card:hover {
-            transform: translateY(-0.5rem);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .chat-name {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        .btn-outline-secondary {
-            border-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-secondary);
+        .last-message {
+            color: #667781;
+            font-size: 0.9rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        
-        .btn-outline-secondary:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-light);
+
+        /* Chat Window */
+        .chat-window {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header-window {
+            padding: 15px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #e9edef;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: url('https://web.whatsapp.com/img/bg-chat-tile-light_686b98c9fdffef3f63127759e2057750.png');
+            background-repeat: repeat;
+            background-blend-mode: soft-light;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 60%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .received .message-bubble {
+            background: white;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+
+        .sent .message-bubble {
+            background: #d9fdd3;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #667781;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .message-input {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            font-size: 1rem;
+        }
+
+        .send-button {
+            background: #008069;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .online-status {
+            width: 10px;
+            height: 10px;
+            background: #00a884;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
         }
     </style>
 </head>
-<body class="bg-dark text-light">
-
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<body>
     <div class="container">
-        <a class="navbar-brand fs-3 fw-bold" href="#">
-            <i class="fas fa-rocket me-2"></i>Pteroware
-        </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div id="cart-icon">
-    🛒 <span id="cart-count">0</span>
-</div>
-
-<div id="checkout-modal">
-    <h3 class="mb-4">🛒 Checkout</h3>
-    <div id="cart-items" class="mb-4"></div>
-    <div class="mb-3">
-        <input type="text" 
-               class="form-control bg-dark text-light" 
-               id="tg-username" 
-               placeholder="@telegram_username"
-               required>
-    </div>
-    <div class="d-grid gap-2 d-flex justify-content-end">
-        <button class="btn btn-outline-secondary" onclick="closeCheckoutModal()">
-            <i class="fas fa-times me-2"></i>Batal
-        </button>
-        <button class="btn btn-primary flex-grow-1" onclick="processCheckout()">
-            <i class="fas fa-paper-plane me-2"></i>Kirim Pesanan
-        </button>
-    </div>
-</div>
-
-<section id="products" class="py-5 mt-5">
-    <div class="container">
-        <!-- Shared Hosting -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-share-alt me-2"></i>Shared Hosting</h3>
-            <div class="col-lg-3 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <span class="badge bg-primary">Popular</span>
-                        <div class="price-badge">$5<span class="fs-6">/mo</span></div>
-                    </div>
-                    <h4 class="mb-4">Starter</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>1 vCPU Core</li>
-                        <li><i class="fas fa-memory me-2"></i>1GB DDR4 RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>20GB NVMe Storage</li>
-                        <li><i class="fas fa-tachometer-alt me-2"></i>1TB Bandwidth</li>
-                    </ul>
-                    <button class="btn btn-primary w-100 mt-4 add-to-cart">Order Now</button>
-                </div>
+        <!-- Chat List -->
+        <div class="chat-list">
+            <div class="chat-header">
+                <i class="fas fa-user"></i>
+                <h2>Chats</h2>
             </div>
-        </div>
-
-        <!-- VPS Hosting -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-server me-2"></i>VPS Hosting</h3>
-            <div class="col-lg-4 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-primary">🇺🇸 USA</span>
-                            <span class="badge bg-primary">🇸🇬 SG</span>
-                        </div>
-                        <div class="price-badge">$45<span class="fs-6">/mo</span></div>
-                    </div>
-                    <h4 class="mb-4">Business VPS</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>4 vCPU Cores</li>
-                        <li><i class="fas fa-memory me-2"></i>8GB DDR4 RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>160GB NVMe Storage</li>
-                    </ul>
-                    <button class="btn btn-primary w-100 mt-4 add-to-cart">Order Now</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Minecraft Servers -->
-        <div class="row g-4 mb-6">
-            <h3 class="h2 fw-bold mb-4"><i class="fas fa-database me-2"></i>Minecraft Servers</h3>
-            <div class="col-lg-4 col-md-6">
-                <div class="product-card p-4 h-100">
-                    <div class="price-badge bg-dark">$3<span class="fs-6">/mo</span></div>
-                    <h4 class="my-4">Basic V1</h4>
-                    <ul class="feature-list list-unstyled">
-                        <li><i class="fas fa-microchip me-2"></i>2Core CPU</li>
-                        <li><i class="fas fa-memory me-2"></i>2GB RAM</li>
-                        <li><i class="fas fa-hdd me-2"></i>10GB Storage</li>
-                    </ul>
-                    <button class="btn btn-primary w-100 mt-4 add-to-cart">Order Now</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Domain Registration -->
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="product-card p-4 h-100">
-                    <h3 class="h4 fw-bold mb-4"><i class="fas fa-globe me-2"></i>Domain Registration</h3>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <div class="p-3 bg-dark rounded">
-                                <div class="fw-bold">.com</div>
-                                <div class="text-success">$10/yr</div>
-                                <button class="btn btn-sm btn-primary mt-2 add-to-cart">Add</button>
-                            </div>
-                        </div>
-                        <div class="col-6 mb-3">
-                            <div class="p-3 bg-dark rounded">
-                                <div class="fw-bold">.net</div>
-                                <div class="text-success">$12/yr</div>
-                                <button class="btn btn-sm btn-primary mt-2 add-to-cart">Add</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    function updateCartCount() {
-        document.getElementById('cart-count').textContent = cart.length;
-    }
-
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const productCard = e.target.closest('.product-card, .bg-dark');
-            const product = {
-                name: productCard.querySelector('h4, .fw-bold').textContent,
-                price: productCard.querySelector('.price-badge, .text-success').textContent.match(/\d+/)[0]
-            };
             
-            cart.push(product);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            showCheckoutModal();
+            <div class="chat-item">
+                <div class="avatar">
+                    <div class="online-status"></div>
+                </div>
+                <div class="chat-info">
+                    <div class="chat-name">John Doe</div>
+                    <div class="last-message">Hey, how are you?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-window">
+            <div class="chat-header-window">
+                <div class="avatar"></div>
+                <div class="chat-info">
+                    <div class="chat-name">John Doe</div>
+                    <div class="last-message">online</div>
+                </div>
+            </div>
+
+            <div class="chat-body">
+                <div class="message received">
+                    <div class="message-bubble">
+                        Hi there! How can I help you?
+                        <div class="message-time">10:30 AM</div>
+                    </div>
+                </div>
+
+                <div class="message sent">
+                    <div class="message-bubble">
+                        I need some information about...
+                        <div class="message-time">10:31 AM <i class="fas fa-check-double"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" class="message-input" placeholder="Type a message">
+                <button class="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messageInput = document.querySelector('.message-input');
+        const chatBody = document.querySelector('.chat-body');
+        const sendButton = document.querySelector('.send-button');
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message sent';
+                messageDiv.innerHTML = `
+                    <div class="message-bubble">
+                        ${message}
+                        <div class="message-time">
+                            ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                    </div>
+                `;
+                chatBody.appendChild(messageDiv);
+                messageInput.value = '';
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        
+        messageInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                sendMessage();
+            }
         });
-    });
-
-    function showCheckoutModal() {
-        const modal = document.getElementById('checkout-modal');
-        modal.style.display = 'block';
-        document.getElementById('cart-items').innerHTML = cart
-            .map(item => `
-                <div class="d-flex justify-content-between mb-2">
-                    <div>${item.name}</div>
-                    <div>$${item.price}</div>
-                </div>`
-            ).join('');
-    }
-
-    function closeCheckoutModal() {
-        document.getElementById('checkout-modal').style.display = 'none';
-        document.getElementById('tg-username').value = '';
-    }
-
-    async function processCheckout() {
-        const tgUsername = document.getElementById('tg-username').value;
-        const BOT_TOKEN = 'TELEGRAM_BOT_TOKEN';
-        const CHAT_ID = 'TELEGRAM_CHAT_ID';
-
-        if(!tgUsername.startsWith('@')) {
-            return alert('Username harus diawali @');
-        }
-
-        const message = `📥 Order Baru\nDari: ${tgUsername}\n\n` +
-            cart.map(item => `${item.name} - $${item.price}`).join('\n') +
-            `\n\nTotal: $${cart.reduce((sum, item) => sum + +item.price, 0)}`;
-
-        try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message
-                })
-            });
-
-            cart = [];
-            localStorage.removeItem('cart');
-            updateCartCount();
-            closeCheckoutModal();
-            alert('Pesanan terkirim!');
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Gagal mengirim pesanan');
-        }
-    }
-
-    updateCartCount();
-    window.onclick = (event) => event.target === document.getElementById('checkout-modal') && closeCheckoutModal();
-</script>
+    </script>
 </body>
 </html>
