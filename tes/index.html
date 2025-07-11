@@ -1,276 +1,1072 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp-like UI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>LuxuryStyle | Toko Fashion Online Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #4cc9f0;
+            --transition: all 0.3s ease;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #e5ddd5;
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #fefefe;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .container {
-            display: flex;
-            height: 100vh;
-            max-width: 1400px;
+            width: 90%;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            padding: 0 15px;
         }
 
-        /* Chat List */
-        .chat-list {
-            width: 30%;
-            border-right: 1px solid #e9edef;
-            background: #f0f2f5;
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .chat-header {
-            padding: 15px;
-            background: #008069;
-            color: white;
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
             display: flex;
             align-items: center;
         }
 
-        .chat-header i {
-            margin-right: 15px;
-            font-size: 1.2rem;
+        .nav-icon {
+            margin-left: 20px;
+            font-size: 18px;
+            color: var(--dark);
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .chat-item {
+        .nav-icon:hover {
+            color: var(--primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
             display: flex;
-            padding: 12px;
-            border-bottom: 1px solid #e9edef;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
             cursor: pointer;
         }
 
-        .chat-item:hover {
-            background: #f5f6f6;
-        }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-            background: #ddd;
-        }
-
-        .chat-info {
-            flex-grow: 1;
-        }
-
-        .chat-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .last-message {
-            color: #667781;
-            font-size: 0.9rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(63, 55, 201, 0.1) 100%);
+            padding: 80px 0;
+            position: relative;
             overflow: hidden;
         }
 
-        /* Chat Window */
-        .chat-window {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header-window {
-            padding: 15px;
-            background: #f0f2f5;
+        .hero-content {
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #e9edef;
+            justify-content: space-between;
         }
 
-        .chat-body {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: url('https://web.whatsapp.com/img/bg-chat-tile-light_686b98c9fdffef3f63127759e2057750.png');
-            background-repeat: repeat;
-            background-blend-mode: soft-light;
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
         }
 
-        .message {
-            margin-bottom: 15px;
-            display: flex;
+        .hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
         }
 
-        .message.received {
-            justify-content: flex-start;
-        }
-
-        .message.sent {
-            justify-content: flex-end;
-        }
-
-        .message-bubble {
-            max-width: 60%;
-            padding: 8px 12px;
-            border-radius: 8px;
+        .hero-text h1 span {
+            color: var(--primary);
             position: relative;
         }
 
-        .received .message-bubble {
-            background: white;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
-        }
-
-        .sent .message-bubble {
-            background: #d9fdd3;
-            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            color: #667781;
-            margin-top: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .chat-footer {
-            padding: 15px;
-            background: #f0f2f5;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .message-input {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            background: white;
-            font-size: 1rem;
-        }
-
-        .send-button {
-            background: #008069;
-            color: white;
-            border: none;
-            padding: 12px 15px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .online-status {
-            width: 10px;
-            height: 10px;
-            background: #00a884;
-            border-radius: 50%;
+        .hero-text h1 span::after {
+            content: '';
             position: absolute;
             bottom: 0;
-            right: 0;
-            border: 2px solid white;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: rgba(247, 37, 133, 0.3);
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .shape {
+            position: absolute;
+            z-index: -1;
+        }
+
+        .shape-1 {
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 30px;
+            transform: rotate(45deg);
+        }
+
+        .shape-2 {
+            bottom: -30px;
+            right: -30px;
+            width: 150px;
+            height: 150px;
+            border: 15px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 40px;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        /* Categories */
+        .categories {
+            padding: 30px 0;
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .category-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-img img {
+            transform: scale(1.1);
+        }
+
+        .category-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .category-content h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .category-content p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Products */
+        .products {
+            padding: 30px 0 60px;
+            background-color: var(--light);
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .product-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
+        }
+
+        .product-actions {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-category {
+            color: var(--gray);
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-size: 14px;
+        }
+
+        /* Features */
+        .features {
+            padding: 60px 0;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: rgba(67, 97, 238, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            color: var(--primary);
+            font-size: 28px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 60px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            padding: 15px 30px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background-color: #e11d74;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-col p {
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #adb5bd;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-image {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-text h1 {
+                font-size: 32px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Chat List -->
-        <div class="chat-list">
-            <div class="chat-header">
-                <i class="fas fa-user"></i>
-                <h2>Chats</h2>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">Luxury<span>Style</span></a>
+            
+            <nav>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Produk</a></li>
+                    <li><a href="#">Kategori</a></li>
+                    <li><a href="#">Koleksi</a></li>
+                    <li><a href="#">Tentang Kami</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-icons">
+                <div class="nav-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="nav-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </div>
             </div>
             
-            <div class="chat-item">
-                <div class="avatar">
-                    <div class="online-status"></div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Temukan <span>Gaya Eksklusif</span> Untuk Penampilan Terbaikmu</h1>
+                <p>Koleksi fashion premium dengan kualitas terbaik dan desain terkini. Dapatkan penawaran spesial untuk pelanggan baru!</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn">Belanja Sekarang</a>
+                    <a href="#" class="btn btn-outline">Lihat Koleksi</a>
                 </div>
-                <div class="chat-info">
-                    <div class="chat-name">John Doe</div>
-                    <div class="last-message">Hey, how are you?</div>
+            </div>
+            <div class="hero-image">
+                <div class="shape shape-1"></div>
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Fashion Collection">
+                <div class="shape shape-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Kategori Populer</h2>
+            </div>
+            
+            <div class="categories-container">
+                <div class="category-card">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Pakaian Pria">
+                    </div>
+                    <div class="category-content">
+                        <h3>Pakaian Pria</h3>
+                        <p>50+ produk</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80" alt="Pakaian Wanita">
+                    </div>
+                    <div class="category-content">
+                        <h3>Pakaian Wanita</h3>
+                        <p>75+ produk</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1112&q=80" alt="Sepatu">
+                    </div>
+                    <div class="category-content">
+                        <h3>Sepatu & Sandal</h3>
+                        <p>30+ produk</p>
+                    </div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Aksesoris">
+                    </div>
+                    <div class="category-content">
+                        <h3>Aksesoris</h3>
+                        <p>45+ produk</p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Chat Window -->
-        <div class="chat-window">
-            <div class="chat-header-window">
-                <div class="avatar"></div>
-                <div class="chat-info">
-                    <div class="chat-name">John Doe</div>
-                    <div class="last-message">online</div>
-                </div>
+    <!-- Products Section -->
+    <section class="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Produk Terbaru</h2>
             </div>
-
-            <div class="chat-body">
-                <div class="message received">
-                    <div class="message-bubble">
-                        Hi there! How can I help you?
-                        <div class="message-time">10:30 AM</div>
-                    </div>
-                </div>
-
-                <div class="message sent">
-                    <div class="message-bubble">
-                        I need some information about...
-                        <div class="message-time">10:31 AM <i class="fas fa-check-double"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chat-footer">
-                <input type="text" class="message-input" placeholder="Type a message">
-                <button class="send-button">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const messageInput = document.querySelector('.message-input');
-        const chatBody = document.querySelector('.chat-body');
-        const sendButton = document.querySelector('.send-button');
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if(message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message sent';
-                messageDiv.innerHTML = `
-                    <div class="message-bubble">
-                        ${message}
-                        <div class="message-time">
-                            ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            <i class="fas fa-check-double"></i>
+            
+            <div class="products-container">
+                <div class="product-card">
+                    <span class="product-badge">New</span>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Jaket Denim">
+                        <div class="product-actions">
+                            <div class="action-btn"><i class="fas fa-heart"></i></div>
+                            <div class="action-btn"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="action-btn"><i class="fas fa-eye"></i></div>
                         </div>
                     </div>
-                `;
-                chatBody.appendChild(messageDiv);
-                messageInput.value = '';
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }
-        }
+                    <div class="product-content">
+                        <div class="product-category">Pakaian Pria</div>
+                        <h3 class="product-title">Jaket Denim Premium</h3>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">Rp 499.000</span>
+                                <span class="old-price">Rp 599.000</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=686&q=80" alt="Dress Floral">
+                        <div class="product-actions">
+                            <div class="action-btn"><i class="fas fa-heart"></i></div>
+                            <div class="action-btn"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="action-btn"><i class="fas fa-eye"></i></div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Pakaian Wanita</div>
+                        <h3 class="product-title">Dress Floral Summer</h3>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">Rp 399.000</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <span class="product-badge">Sale</span>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Sepatu Sneakers">
+                        <div class="product-actions">
+                            <div class="action-btn"><i class="fas fa-heart"></i></div>
+                            <div class="action-btn"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="action-btn"><i class="fas fa-eye"></i></div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Sepatu</div>
+                        <h3 class="product-title">Sneakers Urban Sport</h3>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">Rp 699.000</span>
+                                <span class="old-price">Rp 899.000</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Tas Wanita">
+                        <div class="product-actions">
+                            <div class="action-btn"><i class="fas fa-heart"></i></div>
+                            <div class="action-btn"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="action-btn"><i class="fas fa-eye"></i></div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Aksesoris</div>
+                        <h3 class="product-title">Tas Wanita Elegan</h3>
+                        <div class="product-price">
+                            <div>
+                                <span class="price">Rp 799.000</span>
+                            </div>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        sendButton.addEventListener('click', sendMessage);
-        
-        messageInput.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') {
-                sendMessage();
-            }
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Gratis Ongkir</h3>
+                    <p>Gratis ongkos kirim untuk seluruh Indonesia dengan minimal pembelian Rp 500.000</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Garansi 100%</h3>
+                    <p>Garansi uang kembali 100% jika produk tidak sesuai atau cacat</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Dukungan 24/7</h3>
+                    <p>Layanan pelanggan siap membantu Anda kapan saja</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Pembayaran Aman</h3>
+                    <p>Berbagai metode pembayaran yang aman dan terpercaya</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Berlangganan Newsletter</h2>
+            <p>Dapatkan update produk terbaru, promo eksklusif, dan diskon spesial langsung ke email Anda</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Masukkan email Anda">
+                <button type="submit">Berlangganan</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>LuxuryStyle</h3>
+                    <p>Toko fashion online premium dengan koleksi terkini dan kualitas terbaik. Penuhi gaya hidup modern Anda dengan produk-produk eksklusif kami.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Tautan Cepat</h3>
+                    <ul>
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Kontak Kami</a></li>
+                        <li><a href="#">Produk Kami</a></li>
+                        <li><a href="#">Promo</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Kategori</h3>
+                    <ul>
+                        <li><a href="#">Pakaian Pria</a></li>
+                        <li><a href="#">Pakaian Wanita</a></li>
+                        <li><a href="#">Sepatu & Sandal</a></li>
+                        <li><a href="#">Tas</a></li>
+                        <li><a href="#">Aksesoris</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Jl. Fashion No. 123, Jakarta</li>
+                        <li><i class="fas fa-phone"></i> +62 812 3456 7890</li>
+                        <li><i class="fas fa-envelope"></i> info@luxurystyle.com</li>
+                        <li><i class="fas fa-clock"></i> Senin - Sabtu: 08:00 - 17:00</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 LuxuryStyle. Hak Cipta Dilindungi. Dibuat dengan ❤️ di Indonesia</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript untuk efek interaktif
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animasi tombol
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // Animasi card saat dihover
+            const cards = document.querySelectorAll('.product-card, .category-card, .feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // Animasi untuk menu navigasi
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.color = '#4361ee';
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    this.style.color = '#212529';
+                });
+            });
         });
     </script>
 </body>
