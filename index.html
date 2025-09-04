@@ -9,7 +9,7 @@
         :root {
             --primary-color: #27ae60;
             --secondary-color: #2c3e50;
-            --accent-color: #e67e22;
+            --accent-color: #9b59b6;
             --light-color: #f9f9f9;
             --dark-color: #333;
         }
@@ -85,7 +85,7 @@
         }
         
         .cart-btn:hover, .login-btn:hover {
-            background-color: #d35400;
+            background-color: #8e44ad;
         }
         
         /* Navigasi */
@@ -157,7 +157,7 @@
         }
         
         .cta-button:hover {
-            background-color: #d35400;
+            background-color: #8e44ad;
         }
         
         .section-title {
@@ -176,73 +176,6 @@
             transform: translateX(-50%);
             width: 80px;
             height: 3px;
-            background-color: var(--primary-color);
-        }
-        
-        /* Produk */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .product-image {
-            height: 200px;
-            background-color: #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-        }
-        
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        .add-to-cart {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .add-to-cart:hover {
             background-color: var(--primary-color);
         }
         
@@ -278,6 +211,91 @@
         .category-title {
             padding: 15px;
             font-weight: 500;
+        }
+        
+        /* Produk */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            height: 50px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .view-product {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .view-product:hover {
+            background-color: var(--primary-color);
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
         }
         
         /* Footer */
@@ -405,8 +423,8 @@
     <nav>
         <div class="container">
             <ul>
-                <li><a href="#">หน้าหลัก</a></li>
-                <li><a href="#">ผลิตภัณฑ์ทั้งหมด</a></li>
+                <li><a href="index.html">หน้าหลัก</a></li>
+                <li><a href="#" id="all-products">ผลิตภัณฑ์ทั้งหมด</a></li>
                 <li><a href="#">หมวดหมู่สินค้า</a></li>
                 <li><a href="#">เกี่ยวกับเรา</a></li>
                 <li><a href="#">ติดต่อ</a></li>
@@ -421,73 +439,19 @@
             <section class="hero">
                 <h1>ตลาดสินค้าคุณภาพจากธรรมชาติ</h1>
                 <p>ค้นหาสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย</p>
-                <button class="cta-button">ช้อปปิ้งตอนนี้</button>
+                <button class="cta-button" id="shop-now">ช้อปปิ้งตอนนี้</button>
             </section>
             
             <!-- Kategori -->
             <h2 class="section-title">หมวดหมู่สินค้า</h2>
-            <div class="categories">
-                <div class="category-card">
-                    <div class="category-icon">🌿</div>
-                    <div class="category-title">สมุนไพรไทย</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🍵</div>
-                    <div class="category-title">ชาและเครื่องดื่ม</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">💊</div>
-                    <div class="category-title">ผลิตภัณฑ์สุขภาพ</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🌱</div>
-                    <div class="category-title">ผลิตภัณฑ์ออร์แกนิค</div>
-                </div>
+            <div class="categories" id="categories-container">
+                <div class="loading">กำลังโหลดหมวดหมู่...</div>
             </div>
             
             <!-- Produk Unggulan -->
             <h2 class="section-title">สินค้ายอดนิยม</h2>
-            <div class="products">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1609505848915-81dd1c9f70f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product 1">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">สมุนไพรไทยชุดเบื้องต้น</h3>
-                        <div class="product-price">450 บาท</div>
-                        <button class="add-to-cart">เพิ่มในตะกร้า</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product 2">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">ชาสมุนไพรผสม</h3>
-                        <div class="product-price">320 บาท</div>
-                        <button class="add-to-cart">เพิ่มในตะกร้า</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product 3">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">น้ำมันหอมระเหย</h3>
-                        <div class="product-price">590 บาท</div>
-                        <button class="add-to-cart">เพิ่มในตะกร้า</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1515351680062-478487cee52c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Product 4">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">เซ็ตผลิตภัณฑ์ออร์แกนิค</h3>
-                        <div class="product-price">750 บาท</div>
-                        <button class="add-to-cart">เพิ่มในตะกร้า</button>
-                    </div>
-                </div>
+            <div id="product-container" class="products">
+                <div class="loading">กำลังโหลดสินค้า...</div>
             </div>
         </div>
     </main>
@@ -503,7 +467,7 @@
                 <div class="footer-section">
                     <h3>ลิงก์ด่วน</h3>
                     <ul class="footer-links">
-                        <li><a href="#">หน้าหลัก</a></li>
+                        <li><a href="index.html">หน้าหลัก</a></li>
                         <li><a href="#">ผลิตภัณฑ์</a></li>
                         <li><a href="#">หมวดหมู่</a></li>
                         <li><a href="#">เกี่ยวกับเรา</a></li>
@@ -526,39 +490,116 @@
     </footer>
 
     <script>
-        // Fungsi sederhana untuk interaksi
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tombol tambah ke keranjang
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
-            const cartButton = document.querySelector('.cart-btn');
-            let cartCount = 0;
+        // Fungsi untuk memuat data dari JSON eksternal
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                return null;
+            }
+        }
+
+        // Fungsi untuk menampilkan kategori
+        function displayCategories(categories) {
+            const categoriesContainer = document.getElementById('categories-container');
+            categoriesContainer.innerHTML = '';
             
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    cartCount++;
-                    cartButton.textContent = `ตะกร้าสินค้า (${cartCount})`;
-                    
-                    // Animasi sederhana
-                    button.textContent = 'เพิ่มแล้ว!';
-                    button.style.backgroundColor = '#27ae60';
-                    
-                    setTimeout(() => {
-                        button.textContent = 'เพิ่มในตะกร้า';
-                        button.style.backgroundColor = '';
-                    }, 1500);
+            categories.forEach(category => {
+                const categoryCard = document.createElement('div');
+                categoryCard.className = 'category-card';
+                categoryCard.dataset.category = category.id;
+                
+                categoryCard.innerHTML = `
+                    <div class="category-icon">${category.icon}</div>
+                    <div class="category-title">${category.name}</div>
+                `;
+                
+                categoryCard.addEventListener('click', () => {
+                    window.location.href = `product.html?category=${category.id}`;
                 });
+                
+                categoriesContainer.appendChild(categoryCard);
+            });
+        }
+
+        // Fungsi untuk menampilkan produk
+        function displayProducts(products, limit = 8) {
+            const productContainer = document.getElementById('product-container');
+            productContainer.innerHTML = '';
+            
+            const productsToShow = limit ? products.slice(0, limit) : products;
+            
+            if (productsToShow.length === 0) {
+                productContainer.innerHTML = '<div class="loading">ไม่พบสินค้า</div>';
+                return;
+            }
+            
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${product.price} บาท</div>
+                        <a href="product.html?product=${product.id}" class="view-product">ดูสินค้า</a>
+                    </div>
+                `;
+                
+                productContainer.appendChild(productCard);
+            });
+        }
+
+        // Fungsi untuk inisialisasi halaman
+        async function initPage() {
+            const data = await loadData();
+            if (!data) {
+                document.getElementById('categories-container').innerHTML = '<div class="loading">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
+                document.getElementById('product-container').innerHTML = '<div class="loading">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
+                return;
+            }
+            
+            // Tampilkan kategori
+            displayCategories(data.categories);
+            
+            // Tampilkan produk
+            displayProducts(data.products, 8);
+            
+            // Event listener untuk tombol semua produk
+            document.getElementById('all-products').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'product.html';
+            });
+            
+            // Event listener untuk tombol shop now
+            document.getElementById('shop-now').addEventListener('click', () => {
+                window.location.href = 'product.html';
             });
             
             // Pencarian
             const searchBox = document.querySelector('.search-box');
-            searchBox.addEventListener('focus', function() {
-                this.placeholder = 'ค้นหาด้วยชื่อสินค้าหรือหมวดหมู่...';
+            searchBox.addEventListener('keyup', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredProducts = data.products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+                
+                displayProducts(filteredProducts, 8);
             });
-            
-            searchBox.addEventListener('blur', function() {
-                this.placeholder = 'ค้นหาสินค้า...';
-            });
-        });
+        }
+
+        // Jalankan inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
 </html>
