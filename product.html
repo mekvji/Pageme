@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลิตภัณฑ์ - GreenThai Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #27ae60;
+            --secondary-color: #2c3e50;
+            --accent-color: #9b59b6;
+            --light-color: #f9f9f9;
+            --dark-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .search-cart {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box {
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: none;
+            margin-right: 15px;
+            width: 300px;
+        }
+        
+        .cart-btn, .login-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .cart-btn:hover, .login-btn:hover {
+            background-color: #8e44ad;
+        }
+        
+        /* Navigasi */
+        nav {
+            background-color: var(--primary-color);
+            padding: 12px 0;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        nav ul li {
+            margin: 0 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Konten Utama */
+        main {
+            padding: 30px 0;
+            min-height: 70vh;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            color: var(--secondary-color);
+            font-size: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+        }
+        
+        .breadcrumb li {
+            margin-right: 10px;
+        }
+        
+        .breadcrumb li:after {
+            content: '/';
+            margin-left: 10px;
+            color: #999;
+        }
+        
+        .breadcrumb li:last-child:after {
+            content: '';
+        }
+        
+        .breadcrumb a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Filter */
+        .filters {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .filter-title {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* Produk */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            height: 50px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-category {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .view-product {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .view-product:hover {
+            background-color: var(--primary-color);
+        }
+        
+        /* Product Detail */
+        .product-detail {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .product-detail.active {
+            display: block;
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .detail-image {
+            flex: 0 0 40%;
+            max-width: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .detail-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .detail-info {
+            flex: 0 0 55%;
+        }
+        
+        .detail-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .detail-price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .detail-category {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        
+        .detail-description {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .detail-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        
+        .meta-value {
+            font-weight: 500;
+        }
+        
+        .detail-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .add-to-cart {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            flex: 1;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #8e44ad;
+        }
+        
+        .back-button {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .back-button:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .pagination-button {
+            background-color: white;
+            border: 1px solid #ddd;
+            color: var(--secondary-color);
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination-button:hover, .pagination-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsivitas */
+        @media (max-width: 968px) {
+            .detail-header {
+                flex-direction: column;
+            }
+            
+            .detail-image {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+            }
+            
+            .products {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .detail-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .search-cart {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .products {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="index.html">Green<span>Thai</span></a>
+                </div>
+                <div class="search-cart">
+                    <input type="text" class="search-box" placeholder="ค้นหาสินค้า...">
+                    <button class="cart-btn">ตะกร้าสินค้า (0)</button>
+                    <button class="login-btn">เข้าสู่ระบบ</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigasi -->
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">หน้าหลัก</a></li>
+                <li><a href="product.html" class="active">ผลิตภัณฑ์ทั้งหมด</a></li>
+                <li><a href="#">หมวดหมู่สินค้า</a></li>
+                <li><a href="#">เกี่ยวกับเรา</a></li>
+                <li><a href="#">ติดต่อ</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Konten Utama -->
+    <main>
+        <div class="container">
+            <!-- Breadcrumb -->
+            <ul class="breadcrumb">
+                <li><a href="index.html">หน้าหลัก</a></li>
+                <li>ผลิตภัณฑ์</li>
+            </ul>
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title" id="page-title">ผลิตภัณฑ์ทั้งหมด</h1>
+            </div>
+            
+            <!-- Filter -->
+            <div class="filters">
+                <h3 class="filter-title">ตัวกรอง</h3>
+                <div class="filter-options">
+                    <div class="filter-group">
+                        <label for="category-filter">หมวดหมู่</label>
+                        <select id="category-filter">
+                            <option value="">ทั้งหมด</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="price-filter">ช่วงราคา</label>
+                        <select id="price-filter">
+                            <option value="">ทั้งหมด</option>
+                            <option value="0-500">ต่ำกว่า 500 บาท</option>
+                            <option value="500-1000">500 - 1,000 บาท</option>
+                            <option value="1000-2000">1,000 - 2,000 บาท</option>
+                            <option value="2000+">มากกว่า 2,000 บาท</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort">เรียงตาม</label>
+                        <select id="sort">
+                            <option value="name">ชื่อ</option>
+                            <option value="price-low">ราคา: ต่ำ到สูง</option>
+                            <option value="price-high">ราคา: สูง到ต่ำ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Detail -->
+            <div class="product-detail" id="product-detail">
+                <!-- Detail content will be loaded by JavaScript -->
+            </div>
+            
+            <!-- Product List -->
+            <div id="product-container" class="products">
+                <div class="loading">กำลังโหลดสินค้า...</div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded by JavaScript -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>เกี่ยวกับเรา</h3>
+                    <p>GreenThai เป็นตลาดสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย</p>
+                </div>
+                <div class="footer-section">
+                    <h3>ลิงก์ด่วน</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">หน้าหลัก</a></li>
+                        <li><a href="product.html">ผลิตภัณฑ์</a></li>
+                        <li><a href="#">หมวดหมู่</a></li>
+                        <li><a href="#">เกี่ยวกับเรา</a></li>
+                        <li><a href="#">ติดต่อ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>ข้อมูลติดต่อ</h3>
+                    <ul class="footer-links">
+                        <li>ที่อยู่: กรุงเทพมหานคร, ประเทศไทย</li>
+                        <li>อีเมล: info@greenthai.com</li>
+                        <li>โทรศัพท์: 02-345-6789</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 GreenThai. สงวนลิขสิทธิ์.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi untuk mendapatkan parameter URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.search);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Fungsi untuk memuat data dari JSON eksternal
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                return null;
+            }
+        }
+
+        // Fungsi untuk menampilkan produk
+        function displayProducts(products, page = 1, productsPerPage = 12) {
+            const productContainer = document.getElementById('product-container');
+            const paginationContainer = document.getElementById('pagination');
+            
+            // Hitung jumlah halaman
+            const totalPages = Math.ceil(products.length / productsPerPage);
+            
+            // Tentukan produk untuk halaman saat ini
+            const startIndex = (page - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = products.slice(startIndex, endIndex);
+            
+            // Kosongkan container
+            productContainer.innerHTML = '';
+            
+            if (productsToShow.length === 0) {
+                productContainer.innerHTML = '<div class="loading">ไม่พบสินค้า</div>';
+                paginationContainer.innerHTML = '';
+                return;
+            }
+            
+            // Tampilkan produk
+            productsToShow.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${product.price} บาท</div>
+                        <div class="product-category">${getCategoryName(product.category)}</div>
+                        <a href="product.html?product=${product.id}" class="view-product">ดูสินค้า</a>
+                    </div>
+                `;
+                
+                productContainer.appendChild(productCard);
+            });
+            
+            // Tampilkan pagination
+            displayPagination(totalPages, page);
+        }
+
+        // Fungsi untuk menampilkan detail produk
+        function displayProductDetail(product, categories) {
+            const productDetail = document.getElementById('product-detail');
+            const pageTitle = document.getElementById('page-title');
+            
+            pageTitle.textContent = product.name;
+            
+            productDetail.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                    </div>
+                    <div class="detail-info">
+                        <h2 class="detail-title">${product.name}</h2>
+                        <div class="detail-price">${product.price} บาท</div>
+                        <div class="detail-category">หมวดหมู่: ${getCategoryName(product.category)}</div>
+                        <div class="detail-description">${product.description}</div>
+                        
+                        <div class="detail-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">สายพันธุ์</span>
+                                <span class="meta-value">${product.strain || 'ไม่ระบุ'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">ระดับ THC</span>
+                                <span class="meta-value">${product.thc || 'ไม่ระบุ'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">ระดับ CBD</span>
+                                <span class="meta-value">${product.cbd || 'ไม่ระบุ'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">น้ำหนัก</span>
+                                <span class="meta-value">${product.weight || 'ไม่ระบุ'}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-actions">
+                            <button class="add-to-cart">เพิ่มในตะกร้า</button>
+                            <a href="product.html" class="back-button">กลับไปหน้ารายการ</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            productDetail.classList.add('active');
+        }
+
+        // Fungsi untuk menampilkan pagination
+        function displayPagination(totalPages, currentPage) {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Tombol Previous
+            if (currentPage > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.className = 'pagination-button';
+                prevButton.textContent = '← ก่อนหน้า';
+                prevButton.addEventListener('click', () => {
+                    filterAndDisplayProducts(currentPage - 1);
+                });
+                paginationContainer.appendChild(prevButton);
+            }
+            
+            // Tombol halaman
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = 'pagination-button';
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => {
+                    filterAndDisplayProducts(i);
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+            
+            // Tombol Next
+            if (currentPage < totalPages) {
+                const nextButton = document.createElement('button');
+                nextButton.className = 'pagination-button';
+                nextButton.textContent = 'ถัดไป →';
+                nextButton.addEventListener('click', () => {
+                    filterAndDisplayProducts(currentPage + 1);
+                });
+                paginationContainer.appendChild(nextButton);
+            }
+        }
+
+        // Fungsi untuk mendapatkan nama kategori berdasarkan ID
+        function getCategoryName(categoryId) {
+            const category = window.categoriesData.find(cat => cat.id == categoryId);
+            return category ? category.name : 'ไม่ระบุ';
+        }
+
+        // Fungsi untuk memfilter dan menampilkan produk
+        function filterAndDisplayProducts(page = 1) {
+            const categoryFilter = document.getElementById('category-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+            const sortOption = document.getElementById('sort').value;
+            
+            let filteredProducts = [...window.productsData];
+            
+            // Filter berdasarkan kategori
+            if (categoryFilter) {
+                filteredProducts = filteredProducts.filter(product => product.category == categoryFilter);
+            }
+            
+            // Filter berdasarkan harga
+            if (priceFilter) {
+                if (priceFilter === '0-500') {
+                    filteredProducts = filteredProducts.filter(product => product.price < 500);
+                } else if (priceFilter === '500-1000') {
+                    filteredProducts = filteredProducts.filter(product => product.price >= 500 && product.price <= 1000);
+                } else if (priceFilter === '1000-2000') {
+                    filteredProducts = filteredProducts.filter(product => product.price >= 1000 && product.price <= 2000);
+                } else if (priceFilter === '2000+') {
+                    filteredProducts = filteredProducts.filter(product => product.price > 2000);
+                }
+            }
+            
+            // Sortir produk
+            if (sortOption === 'name') {
+                filteredProducts.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+            } else if (sortOption === 'price-low') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortOption === 'price-high') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+            
+            // Tampilkan produk
+            displayProducts(filteredProducts, page);
+        }
+
+        // Fungsi untuk inisialisasi halaman
+        async function initPage() {
+            const data = await loadData();
+            if (!data) {
+                document.getElementById('product-container').innerHTML = '<div class="loading">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
+                return;
+            }
+            
+            // Simpan data ke variabel global
+            window.productsData = data.products;
+            window.categoriesData = data.categories;
+            
+            // Isi dropdown kategori
+            const categoryFilter = document.getElementById('category-filter');
+            data.categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                categoryFilter.appendChild(option);
+            });
+            
+            // Cek apakah menampilkan detail produk atau daftar produk
+            const productId = getUrlParameter('product');
+            const categoryId = getUrlParameter('category');
+            
+            if (productId) {
+                // Tampilkan detail produk
+                const product = data.products.find(p => p.id == productId);
+                if (product) {
+                    displayProductDetail(product, data.categories);
+                    document.getElementById('product-container').innerHTML = '';
+                    document.getElementById('pagination').innerHTML = '';
+                    document.getElementById('filters').style.display = 'none';
+                } else {
+                    document.getElementById('product-container').innerHTML = '<div class="loading">ไม่พบสินค้า</div>';
+                }
+            } else {
+                // Tampilkan daftar produk
+                if (categoryId) {
+                    document.getElementById('category-filter').value = categoryId;
+                    document.getElementById('page-title').textContent = `ผลิตภัณฑ์: ${getCategoryName(categoryId)}`;
+                }
+                
+                filterAndDisplayProducts();
+            }
+            
+            // Event listener untuk filter
+            document.getElementById('category-filter').addEventListener('change', () => {
+                filterAndDisplayProducts();
+            });
+            
+            document.getElementById('price-filter').addEventListener('change', () => {
+                filterAndDisplayProducts();
+            });
+            
+            document.getElementById('sort').addEventListener('change', () => {
+                filterAndDisplayProducts();
+            });
+            
+            // Pencarian
+            const searchBox = document.querySelector('.search-box');
+            searchBox.addEventListener('keyup', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredProducts = data.products.filter(product => 
+                    product.name.toLowerCase().includes(searchTerm) || 
+                    product.description.toLowerCase().includes(searchTerm)
+                );
+                
+                displayProducts(filteredProducts);
+            });
+        }
+
+        // Jalankan inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
