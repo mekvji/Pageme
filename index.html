@@ -3,154 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace Barang Unik</title>
+    <title>NexusMarket | Marketplace Futuristik</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header dan Navigasi -->
-    <header>
-        <div class="header-pattern"></div>
-        <div class="container">
-            <div class="logo-container">
-                <h1 class="logo"><i class="fas fa-gem"></i> LuxeAntique</h1>
-                <p class="tagline">Barang Berkualitas dengan Sentuhan Klasik</p>
+    <!-- Background dengan efek futuristik -->
+    <div class="background-container">
+        <div class="bg-grid"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+        <div class="bg-particle-container"></div>
+        <div class="bg-scanline"></div>
+    </div>
+
+    <!-- Header dengan efek glassmorphism -->
+    <header class="glass-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <div class="logo-shape">
+                        <div class="logo-inner"></div>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <h1 class="logo-title">Nexus<span class="logo-accent">Market</span></h1>
+                    <p class="logo-subtitle">Next-Gen Marketplace</p>
+                </div>
             </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Beranda</a></li>
-                    <li><a href="#categories" class="nav-link"><i class="fas fa-th-large"></i> Kategori</a></li>
-                    <li><a href="#featured" class="nav-link"><i class="fas fa-star"></i> Unggulan</a></li>
-                    <li><a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a></li>
-                    <li><a href="#contact" class="nav-link"><i class="fas fa-phone-alt"></i> Kontak</a></li>
+            
+            <nav class="nav-section">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active" data-text="Home">
+                            <i class="fas fa-home nav-icon"></i>
+                            <span class="nav-label">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#categories" class="nav-link" data-text="Categories">
+                            <i class="fas fa-grid nav-icon"></i>
+                            <span class="nav-label">Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#featured" class="nav-link" data-text="Featured">
+                            <i class="fas fa-sparkles nav-icon"></i>
+                            <span class="nav-label">Featured</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#about" class="nav-link" data-text="About">
+                            <i class="fas fa-info-circle nav-icon"></i>
+                            <span class="nav-label">About</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
+            
+            <div class="header-actions">
+                <button class="action-btn cart-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">3</span>
+                </button>
+                <button class="action-btn user-btn">
+                    <i class="fas fa-user-astronaut"></i>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h2 class="hero-title">Temukan Barang Langka & Berkualitas</h2>
-            <p class="hero-subtitle">Koleksi eksklusif dengan harga terbaik. Setiap barang memiliki cerita dan karakter unik.</p>
-            <a href="#categories" class="hero-btn">Jelajahi Koleksi <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="hero-decoration">
-            <div class="decoration-item d1"></div>
-            <div class="decoration-item d2"></div>
-            <div class="decoration-item d3"></div>
-        </div>
-    </section>
-
-    <!-- Kategori Tab -->
-    <section class="categories-section" id="categories">
-        <div class="container">
-            <h2 class="section-title">Kategori Barang</h2>
-            <p class="section-subtitle">Pilih kategori untuk menemukan barang yang Anda cari</p>
-            
-            <div class="categories-tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-category="all"><i class="fas fa-th"></i> Semua</button>
-                    <button class="tab-btn" data-category="furniture"><i class="fas fa-chair"></i> Furniture</button>
-                    <button class="tab-btn" data-category="art"><i class="fas fa-palette"></i> Seni & Lukisan</button>
-                    <button class="tab-btn" data-category="jewelry"><i class="fas fa-gem"></i> Perhiasan</button>
-                    <button class="tab-btn" data-category="collectibles"><i class="fas fa-chess-knight"></i> Koleksi</button>
-                    <button class="tab-btn" data-category="books"><i class="fas fa-book-open"></i> Buku Langka</button>
-                    <button class="tab-btn" data-category="decor"><i class="fas fa-feather-alt"></i> Dekorasi</button>
-                </div>
-                
-                <div class="tab-content">
-                    <!-- Barang akan dimuat di sini oleh JavaScript -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Barang Unggulan -->
-    <section class="featured-section" id="featured">
-        <div class="container">
-            <h2 class="section-title">Barang Unggulan</h2>
-            <p class="section-subtitle">Koleksi terbaik kami yang paling diminati</p>
-            
-            <div class="featured-items">
-                <!-- Item unggulan akan dimuat di sini oleh JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal Detail Barang -->
-    <div class="modal-overlay" id="itemModal">
-        <div class="modal-content">
-            <button class="modal-close"><i class="fas fa-times"></i></button>
-            <div class="modal-body">
-                <!-- Konten modal akan diisi oleh JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Pesan Terkonfirmasi -->
-    <div class="confirmation-overlay" id="confirmation">
-        <div class="confirmation-box">
-            <div class="confirmation-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h3>Pesanan Diterima!</h3>
-            <p>Permintaan pembelian Anda telah dikirim ke admin melalui Telegram. Admin akan menghubungi Anda dalam waktu 1x24 jam.</p>
-            <button class="confirmation-btn" id="closeConfirmation">Tutup</button>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3><i class="fas fa-gem"></i> LuxeAntique</h3>
-                    <p>Platform jual beli barang antik dan langka dengan kualitas terjamin. Setiap barang melalui proses verifikasi ketat.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-pinterest"></i></a>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <h2 class="hero-title">
+                        <span class="hero-title-line">Discover the</span>
+                        <span class="hero-title-line accent">Future of</span>
+                        <span class="hero-title-line">Shopping</span>
+                    </h2>
+                    <p class="hero-description">
+                        Experience next-generation e-commerce with augmented reality previews, 
+                        AI-powered recommendations, and seamless integration with your digital life.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="hero-btn primary-btn">
+                            <span>Explore Now</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button class="hero-btn secondary-btn">
+                            <span>View Demo</span>
+                            <i class="fas fa-play-circle"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h4>Kontak Kami</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Jl. Antik No. 123, Kota Klasik</p>
-                    <p><i class="fas fa-phone"></i> +62 812 3456 7890</p>
-                    <p><i class="fas fa-envelope"></i> info@luxeantique.com</p>
-                    <p><i class="fab fa-telegram"></i> @luxeantique_admin</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Jam Operasional</h4>
-                    <p>Senin - Jumat: 09:00 - 18:00</p>
-                    <p>Sabtu: 10:00 - 16:00</p>
-                    <p>Minggu & Hari Libur: Tutup</p>
-                    <p>Layanan Telegram: 24/7</p>
+                <div class="hero-visual">
+                    <div class="visual-container">
+                        <div class="visual-element ve-1"></div>
+                        <div class="visual-element ve-2"></div>
+                        <div class="visual-element ve-3"></div>
+                        <div class="visual-main">
+                            <div class="visual-content">
+                                <i class="fas fa-cube visual-icon"></i>
+                                <div class="visual-text">AR Preview</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 LuxeAntique. Hak Cipta Dilindungi. | Dibuat dengan <i class="fas fa-heart"></i> untuk pecinta barang klasik.</p>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section" id="categories">
+            <div class="section-header">
+                <h2 class="section-title">Product Categories</h2>
+                <p class="section-subtitle">Browse through our futuristic catalog</p>
+            </div>
+            
+            <div class="categories-container">
+                <div class="category-tabs">
+                    <div class="tabs-header">
+                        <div class="tabs-indicator"></div>
+                    </div>
+                    <div class="tabs-content">
+                        <button class="category-tab active" data-category="all">
+                            <i class="fas fa-layer-group tab-icon"></i>
+                            <span class="tab-text">All Items</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                        <button class="category-tab" data-category="tech">
+                            <i class="fas fa-microchip tab-icon"></i>
+                            <span class="tab-text">Tech & Gadgets</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                        <button class="category-tab" data-category="wearables">
+                            <i class="fas fa-smartwatch tab-icon"></i>
+                            <span class="tab-text">Wearables</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                        <button class="category-tab" data-category="home">
+                            <i class="fas fa-home-automation tab-icon"></i>
+                            <span class="tab-text">Smart Home</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                        <button class="category-tab" data-category="transport">
+                            <i class="fas fa-hoverboard tab-icon"></i>
+                            <span class="tab-text">Transport</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                        <button class="category-tab" data-category="entertainment">
+                            <i class="fas fa-vr-cardboard tab-icon"></i>
+                            <span class="tab-text">Entertainment</span>
+                            <div class="tab-glow"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="products-grid">
+                    <!-- Product cards will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="featured-section" id="featured">
+            <div class="section-header">
+                <h2 class="section-title">Featured Products</h2>
+                <p class="section-subtitle">Curated selection of tomorrow's tech</p>
+            </div>
+            
+            <div class="featured-container">
+                <!-- Featured products will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <div class="about-container">
+                <div class="about-content">
+                    <h2 class="about-title">Welcome to the Future of Commerce</h2>
+                    <p class="about-description">
+                        NexusMarket is not just another marketplace. We're a gateway to products 
+                        that define the next generation of human experience. Every item in our 
+                        catalog is carefully selected for innovation, quality, and impact.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3 class="feature-title">Lightning Fast</h3>
+                            <p class="feature-text">Quantum delivery network ensures instant shipping</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Secure</h3>
+                            <p class="feature-text">Blockchain-verified transactions and biometric security</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="feature-title">AI-Powered</h3>
+                            <p class="feature-text">Neural network recommendations tailored to your needs</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="visual-orb">
+                        <div class="orb-ring"></div>
+                        <div class="orb-core">
+                            <i class="fas fa-infinity"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-container glass-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Product Details</h3>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Modal content will be loaded here by JavaScript -->
             </div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Floating Action Button -->
-    <div class="fab" id="telegramFab">
-        <i class="fab fa-telegram"></i>
-        <span class="fab-tooltip">Hubungi Admin</span>
+    <!-- Order Confirmation -->
+    <div class="confirmation-overlay" id="confirmation">
+        <div class="confirmation-container glass-modal">
+            <div class="confirmation-icon">
+                <div class="confirmation-animation">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            <div class="confirmation-content">
+                <h3 class="confirmation-title">Order Initiated</h3>
+                <p class="confirmation-message">
+                    Your purchase request has been transmitted to our AI assistant via Telegram. 
+                    You will receive a confirmation hologram within moments.
+                </p>
+                <div class="confirmation-actions">
+                    <button class="confirmation-btn primary-btn" id="closeConfirmation">
+                        <span>Acknowledged</span>
+                    </button>
+                    <a href="https://t.me/nexusmarket_ai" target="_blank" class="confirmation-btn secondary-btn">
+                        <span>Open Telegram</span>
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Actions -->
+    <div class="floating-actions">
+        <button class="floating-btn primary-floating" id="telegramFab">
+            <i class="fab fa-telegram-plane"></i>
+            <span class="floating-tooltip">Contact AI Assistant</span>
+        </button>
+        <button class="floating-btn secondary-floating" id="arPreview">
+            <i class="fas fa-cube"></i>
+            <span class="floating-tooltip">AR Mode</span>
+        </button>
+        <button class="floating-btn tertiary-floating" id="voiceSearch">
+            <i class="fas fa-microphone"></i>
+            <span class="floating-tooltip">Voice Search</span>
+        </button>
     </div>
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="loading-spinner">
-                <div class="spinner-circle"></div>
-                <div class="spinner-circle"></div>
-                <div class="spinner-circle"></div>
+        <div class="loading-container">
+            <div class="loading-animation">
+                <div class="loading-ring"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
+                <div class="loading-dot"></div>
             </div>
-            <p class="loading-text">Memuat koleksi eksklusif...</p>
+            <div class="loading-text">
+                <span class="loading-word">Initializing</span>
+                <span class="loading-word">Nexus</span>
+                <span class="loading-word">Marketplace</span>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
         </div>
     </div>
 
