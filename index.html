@@ -1,937 +1,159 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GreenThai Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #27ae60;
-            --secondary-color: #2c3e50;
-            --accent-color: #9b59b6;
-            --light-color: #f9f9f9;
-            --dark-color: #333;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans Thai', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            line-height: 1.6;
-            color: var(--dark-color);
-            background-color: var(--light-color);
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Age Verification Modal */
-        #age-verification {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .verification-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        
-        .verification-box h2 {
-            margin-bottom: 20px;
-            color: var(--secondary-color);
-        }
-        
-        .verification-box p {
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        
-        .verification-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .verify-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        
-        .yes-btn {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .no-btn {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .verify-btn:hover {
-            opacity: 0.9;
-        }
-        
-        /* Language Selection */
-        #language-selection {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-        
-        .language-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        
-        .language-box h2 {
-            margin-bottom: 20px;
-            color: var(--secondary-color);
-        }
-        
-        .language-options {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-        }
-        
-        .language-btn {
-            padding: 12px 25px;
-            border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            background-color: white;
-            color: var(--secondary-color);
-            transition: all 0.3s;
-            min-width: 120px;
-        }
-        
-        .language-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        /* Header */
-        header {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo span {
-            color: var(--primary-color);
-        }
-        
-        .language-switcher {
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .search-cart {
-            display: flex;
-            align-items: center;
-        }
-        
-        .search-box {
-            padding: 10px 15px;
-            border-radius: 20px;
-            border: none;
-            margin-right: 15px;
-            width: 300px;
-        }
-        
-        .cart-btn, .login-btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: background-color 0.3s;
-        }
-        
-        .cart-btn:hover, .login-btn:hover {
-            background-color: #8e44ad;
-        }
-        
-        /* Navigasi */
-        nav {
-            background-color: var(--primary-color);
-            padding: 12px 0;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            justify-content: center;
-        }
-        
-        nav ul li {
-            margin: 0 20px;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            font-weight: 500;
-        }
-        
-        nav ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Konten Utama */
-        main {
-            padding: 30px 0;
-            min-height: 70vh;
-        }
-        
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1598890777037-a5d0d8d019d6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-            margin-bottom: 40px;
-            border-radius: 10px;
-        }
-        
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-        
-        .cta-button {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .cta-button:hover {
-            background-color: #8e44ad;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--secondary-color);
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
-        }
-        
-        /* Kategori */
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
-        }
-        
-        .category-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .category-icon {
-            padding: 25px 0;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 2.5rem;
-        }
-        
-        .category-title {
-            padding: 15px;
-            font-weight: 500;
-        }
-        
-        /* Produk */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .product-image {
-            height: 200px;
-            background-color: #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-        
-        .product-info {
-            padding: 20px;
-        }
-        
-        .product-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-            height: 50px;
-            overflow: hidden;
-        }
-        
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        
-        .view-product {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .view-product:hover {
-            background-color: var(--primary-color);
-        }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 30px;
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 40px 0 20px;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-section h3 {
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .footer-section h3:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background-color: var(--primary-color);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--primary-color);
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        /* Responsivitas */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-            }
-            
-            .logo {
-                margin-bottom: 15px;
-            }
-            
-            .search-box {
-                width: 200px;
-            }
-            
-            nav ul {
-                flex-wrap: wrap;
-            }
-            
-            nav ul li {
-                margin: 5px 10px;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .products, .categories {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .search-cart {
-                flex-direction: column;
-            }
-            
-            .search-box {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .products, .categories {
-                grid-template-columns: 1fr;
-            }
-            
-            .verification-buttons, .language-options {
-                flex-direction: column;
-            }
-        }
-    </style>
+    <title>Marketplace Barang Unik</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Age Verification Modal -->
-    <div id="age-verification">
-        <div class="verification-box">
-            <h2>Age Verification</h2>
-            <p>คุณมีอายุ 21 ปีขึ้นไปหรือไม่?<br>Are you 21 years of age or older?</p>
-            <div class="verification-buttons">
-                <button class="verify-btn yes-btn" id="verify-yes">ใช่ / Yes</button>
-                <button class="verify-btn no-btn" id="verify-no">ไม่ / No</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Language Selection Modal -->
-    <div id="language-selection">
-        <div class="language-box">
-            <h2>เลือกภาษา / Choose Language</h2>
-            <div class="language-options">
-                <button class="language-btn" data-lang="th">ไทย</button>
-                <button class="language-btn" data-lang="en">English</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header -->
+    <!-- Header dan Navigasi -->
     <header>
+        <div class="header-pattern"></div>
         <div class="container">
-            <div class="header-content">
-                <div class="logo">Green<span>Thai</span></div>
-                <div class="language-switcher" id="language-switcher">
-                    <span>ไทย</span> | <span>EN</span>
-                </div>
-                <div class="search-cart">
-                    <input type="text" class="search-box" placeholder="ค้นหาสินค้า...">
-                    <button class="cart-btn">ตะกร้าสินค้า (0)</button>
-                    <button class="login-btn">เข้าสู่ระบบ</button>
-                </div>
+            <div class="logo-container">
+                <h1 class="logo"><i class="fas fa-gem"></i> LuxeAntique</h1>
+                <p class="tagline">Barang Berkualitas dengan Sentuhan Klasik</p>
             </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li><a href="#categories" class="nav-link"><i class="fas fa-th-large"></i> Kategori</a></li>
+                    <li><a href="#featured" class="nav-link"><i class="fas fa-star"></i> Unggulan</a></li>
+                    <li><a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> Tentang</a></li>
+                    <li><a href="#contact" class="nav-link"><i class="fas fa-phone-alt"></i> Kontak</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
-    
-    <!-- Navigasi -->
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="#">หน้าหลัก</a></li>
-                <li><a href="#" id="all-products">ผลิตภัณฑ์ทั้งหมด</a></li>
-                <li><a href="#">หมวดหมู่สินค้า</a></li>
-                <li><a href="#">เกี่ยวกับเรา</a></li>
-                <li><a href="#">ติดต่อ</a></li>
-            </ul>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2 class="hero-title">Temukan Barang Langka & Berkualitas</h2>
+            <p class="hero-subtitle">Koleksi eksklusif dengan harga terbaik. Setiap barang memiliki cerita dan karakter unik.</p>
+            <a href="#categories" class="hero-btn">Jelajahi Koleksi <i class="fas fa-arrow-right"></i></a>
         </div>
-    </nav>
-    
-    <!-- Konten Utama -->
-    <main>
+        <div class="hero-decoration">
+            <div class="decoration-item d1"></div>
+            <div class="decoration-item d2"></div>
+            <div class="decoration-item d3"></div>
+        </div>
+    </section>
+
+    <!-- Kategori Tab -->
+    <section class="categories-section" id="categories">
         <div class="container">
-            <!-- Hero Section -->
-            <section class="hero">
-                <h1>ตลาดสินค้าคุณภาพจากธรรมชาติ</h1>
-                <p>ค้นหาสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย</p>
-                <button class="cta-button" id="shop-now">ช้อปปิ้งตอนนี้</button>
-            </section>
+            <h2 class="section-title">Kategori Barang</h2>
+            <p class="section-subtitle">Pilih kategori untuk menemukan barang yang Anda cari</p>
             
-            <!-- Kategori -->
-            <h2 class="section-title">หมวดหมู่สินค้า</h2>
-            <div class="categories" id="categories-container">
-                <div class="loading">กำลังโหลดหมวดหมู่...</div>
-            </div>
-            
-            <!-- Produk Unggulan -->
-            <h2 class="section-title">สินค้ายอดนิยม</h2>
-            <div id="product-container" class="products">
-                <div class="loading">กำลังโหลดสินค้า...</div>
+            <div class="categories-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-category="all"><i class="fas fa-th"></i> Semua</button>
+                    <button class="tab-btn" data-category="furniture"><i class="fas fa-chair"></i> Furniture</button>
+                    <button class="tab-btn" data-category="art"><i class="fas fa-palette"></i> Seni & Lukisan</button>
+                    <button class="tab-btn" data-category="jewelry"><i class="fas fa-gem"></i> Perhiasan</button>
+                    <button class="tab-btn" data-category="collectibles"><i class="fas fa-chess-knight"></i> Koleksi</button>
+                    <button class="tab-btn" data-category="books"><i class="fas fa-book-open"></i> Buku Langka</button>
+                    <button class="tab-btn" data-category="decor"><i class="fas fa-feather-alt"></i> Dekorasi</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- Barang akan dimuat di sini oleh JavaScript -->
+                </div>
             </div>
         </div>
-    </main>
-    
+    </section>
+
+    <!-- Barang Unggulan -->
+    <section class="featured-section" id="featured">
+        <div class="container">
+            <h2 class="section-title">Barang Unggulan</h2>
+            <p class="section-subtitle">Koleksi terbaik kami yang paling diminati</p>
+            
+            <div class="featured-items">
+                <!-- Item unggulan akan dimuat di sini oleh JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Detail Barang -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <!-- Konten modal akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Pesan Terkonfirmasi -->
+    <div class="confirmation-overlay" id="confirmation">
+        <div class="confirmation-box">
+            <div class="confirmation-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Pesanan Diterima!</h3>
+            <p>Permintaan pembelian Anda telah dikirim ke admin melalui Telegram. Admin akan menghubungi Anda dalam waktu 1x24 jam.</p>
+            <button class="confirmation-btn" id="closeConfirmation">Tutup</button>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer>
+    <footer id="contact">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>เกี่ยวกับเรา</h3>
-                    <p>GreenThai เป็นตลาดสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย</p>
+                    <h3><i class="fas fa-gem"></i> LuxeAntique</h3>
+                    <p>Platform jual beli barang antik dan langka dengan kualitas terjamin. Setiap barang melalui proses verifikasi ketat.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
                 </div>
                 <div class="footer-section">
-                    <h3>ลิงก์ด่วน</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">หน้าหลัก</a></li>
-                        <li><a href="#">ผลิตภัณฑ์</a></li>
-                        <li><a href="#">หมวดหมู่</a></li>
-                        <li><a href="#">เกี่ยวกับเรา</a></li>
-                        <li><a href="#">ติดต่อ</a></li>
-                    </ul>
+                    <h4>Kontak Kami</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Antik No. 123, Kota Klasik</p>
+                    <p><i class="fas fa-phone"></i> +62 812 3456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@luxeantique.com</p>
+                    <p><i class="fab fa-telegram"></i> @luxeantique_admin</p>
                 </div>
                 <div class="footer-section">
-                    <h3>ข้อมูลติดต่อ</h3>
-                    <ul class="footer-links">
-                        <li>ที่อยู่: กรุงเทพมหานคร, ประเทศไทย</li>
-                        <li>อีเมล: sales@pteroware.cloud</li>
-                        <li>โทรศัพท์: +44 7836 736921</li>
-                    </ul>
+                    <h4>Jam Operasional</h4>
+                    <p>Senin - Jumat: 09:00 - 18:00</p>
+                    <p>Sabtu: 10:00 - 16:00</p>
+                    <p>Minggu & Hari Libur: Tutup</p>
+                    <p>Layanan Telegram: 24/7</p>
                 </div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2023 GreenThai. สงวนลิขสิทธิ์.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2023 LuxeAntique. Hak Cipta Dilindungi. | Dibuat dengan <i class="fas fa-heart"></i> untuk pecinta barang klasik.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        // Data produk (biasanya diambil dari file JSON eksternal)
-        const productsData = {
-            "products": [
-                {
-                    "id": 1,
-                    "name": "สายพันธุ์ไทย",
-                    "price": 450,
-                    "image": "https://images.unsplash.com/photo-1609505848915-81dd1c9f70f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "category": 1
-                },
-                {
-                    "id": 2,
-                    "name": "คุกกี้สมุนไพร",
-                    "price": 320,
-                    "image": "https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "category": 2
-                },
-                {
-                    "id": 3,
-                    "name": "น้ำมันสกัด",
-                    "price": 590,
-                    "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "category": 3
-                },
-                {
-                    "id": 4,
-                    "name": "ชาสมุนไพร",
-                    "price": 750,
-                    "image": "https://images.unsplash.com/photo-1515351680062-478487cee52c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
-                    "category": 4
-                }
-            ],
-            "categories": [
-                { "id": 1, "name": "ดอกไม้", "icon": "🌿" },
-                { "id": 2, "name": "อาหาร", "icon": "🍫" },
-                { "id": 3, "name": "น้ำมัน", "icon": "💧" },
-                { "id": 4, "name": "เครื่องดื่ม", "icon": "🥤" }
-            ]
-        };
+    <!-- Floating Action Button -->
+    <div class="fab" id="telegramFab">
+        <i class="fab fa-telegram"></i>
+        <span class="fab-tooltip">Hubungi Admin</span>
+    </div>
 
-        // Terjemahan untuk multi-bahasa
-        const translations = {
-            th: {
-                // Header
-                "search-placeholder": "ค้นหาสินค้า...",
-                "cart-button": "ตะกร้าสินค้า (0)",
-                "login-button": "เข้าสู่ระบบ",
-                
-                // Navigation
-                "nav-home": "หน้าหลัก",
-                "nav-products": "ผลิตภัณฑ์ทั้งหมด",
-                "nav-categories": "หมวดหมู่สินค้า",
-                "nav-about": "เกี่ยวกับเรา",
-                "nav-contact": "ติดต่อ",
-                
-                // Hero Section
-                "hero-title": "ตลาดสินค้าคุณภาพจากธรรมชาติ",
-                "hero-subtitle": "ค้นหาสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย",
-                "hero-button": "ช้อปปิ้งตอนนี้",
-                
-                // Categories
-                "categories-title": "หมวดหมู่สินค้า",
-                
-                // Products
-                "products-title": "สินค้ายอดนิยม",
-                "view-product": "ดูสินค้า",
-                
-                // Footer
-                "about-title": "เกี่ยวกับเรา",
-                "about-text": "GreenThai เป็นตลาดสินค้าจากธรรมชาติที่มีคุณภาพ พร้อมบริการส่งถึงบ้านทั่วประเทศไทย",
-                "quick-links": "ลิงก์ด่วน",
-                "contact-info": "ข้อมูลติดต่อ",
-                "copyright": "&copy; 2023 GreenThai. สงวนลิขสิทธิ์."
-            },
-            en: {
-                // Header
-                "search-placeholder": "Search products...",
-                "cart-button": "Cart (0)",
-                "login-button": "Login",
-                
-                // Navigation
-                "nav-home": "Home",
-                "nav-products": "All Products",
-                "nav-categories": "Categories",
-                "nav-about": "About Us",
-                "nav-contact": "Contact",
-                
-                // Hero Section
-                "hero-title": "Premium Natural Products Marketplace",
-                "hero-subtitle": "Find high-quality natural products with delivery service throughout Thailand",
-                "hero-button": "Shop Now",
-                
-                // Categories
-                "categories-title": "Product Categories",
-                
-                // Products
-                "products-title": "Popular Products",
-                "view-product": "View Product",
-                
-                // Footer
-                "about-title": "About Us",
-                "about-text": "GreenThai is a marketplace for quality natural products with delivery service throughout Thailand",
-                "quick-links": "Quick Links",
-                "contact-info": "Contact Information",
-                "copyright": "&copy; 2023 GreenThai. All Rights Reserved."
-            }
-        };
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-circle"></div>
+                <div class="spinner-circle"></div>
+                <div class="spinner-circle"></div>
+            </div>
+            <p class="loading-text">Memuat koleksi eksklusif...</p>
+        </div>
+    </div>
 
-        // Fungsi untuk memuat data dari JSON eksternal
-        async function loadData() {
-            try {
-                // Simulasi pengambilan data dari file JSON eksternal
-                // Dalam implementasi nyata, gunakan:
-                // const response = await fetch('data.json');
-                // const data = await response.json();
-                
-                // Untuk demo, kita gunakan data lokal
-                return productsData;
-            } catch (error) {
-                console.error('Error loading data:', error);
-                return null;
-            }
-        }
-
-        // Fungsi untuk menampilkan kategori
-        function displayCategories(categories) {
-            const categoriesContainer = document.getElementById('categories-container');
-            categoriesContainer.innerHTML = '';
-            
-            categories.forEach(category => {
-                const categoryCard = document.createElement('div');
-                categoryCard.className = 'category-card';
-                categoryCard.dataset.category = category.id;
-                
-                categoryCard.innerHTML = `
-                    <div class="category-icon">${category.icon}</div>
-                    <div class="category-title">${category.name}</div>
-                `;
-                
-                categoryCard.addEventListener('click', () => {
-                    // Redirect ke halaman produk dengan parameter kategori
-                    window.location.href = `product.html?category=${category.id}`;
-                });
-                
-                categoriesContainer.appendChild(categoryCard);
-            });
-        }
-
-        // Fungsi untuk menampilkan produk
-        function displayProducts(products, limit = 4) {
-            const productContainer = document.getElementById('product-container');
-            productContainer.innerHTML = '';
-            
-            const productsToShow = limit ? products.slice(0, limit) : products;
-            
-            if (productsToShow.length === 0) {
-                productContainer.innerHTML = '<div class="loading">ไม่พบสินค้า</div>';
-                return;
-            }
-            
-            productsToShow.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                
-                productCard.innerHTML = `
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price} บาท</div>
-                        <button class="view-product" data-id="${product.id}">ดูสินค้า</button>
-                    </div>
-                `;
-                
-                productCard.querySelector('.view-product').addEventListener('click', () => {
-                    // Redirect ke halaman produk dengan parameter produk
-                    window.location.href = `product.html?product=${product.id}`;
-                });
-                
-                productContainer.appendChild(productCard);
-            });
-        }
-
-        // Fungsi untuk menerapkan terjemahan
-        function applyTranslations(lang) {
-            const t = translations[lang];
-            
-            // Header
-            document.querySelector('.search-box').placeholder = t['search-placeholder'];
-            document.querySelector('.cart-btn').textContent = t['cart-button'];
-            document.querySelector('.login-btn').textContent = t['login-button'];
-            
-            // Navigation
-            const navItems = document.querySelectorAll('nav ul li a');
-            navItems[0].textContent = t['nav-home'];
-            navItems[1].textContent = t['nav-products'];
-            navItems[2].textContent = t['nav-categories'];
-            navItems[3].textContent = t['nav-about'];
-            navItems[4].textContent = t['nav-contact'];
-            
-            // Hero Section
-            document.querySelector('.hero h1').textContent = t['hero-title'];
-            document.querySelector('.hero p').textContent = t['hero-subtitle'];
-            document.querySelector('.cta-button').textContent = t['hero-button'];
-            
-            // Categories
-            document.querySelectorAll('.section-title')[0].textContent = t['categories-title'];
-            
-            // Products
-            document.querySelectorAll('.section-title')[1].textContent = t['products-title'];
-            document.querySelectorAll('.view-product').forEach(btn => {
-                btn.textContent = t['view-product'];
-            });
-            
-            // Footer
-            document.querySelectorAll('.footer-section h3')[0].textContent = t['about-title'];
-            document.querySelectorAll('.footer-section p')[0].textContent = t['about-text'];
-            document.querySelectorAll('.footer-section h3')[1].textContent = t['quick-links'];
-            document.querySelectorAll('.footer-section h3')[2].textContent = t['contact-info'];
-            document.querySelector('.copyright').innerHTML = t['copyright'];
-            
-            // Simpan bahasa yang dipilih
-            localStorage.setItem('selectedLanguage', lang);
-        }
-
-        // Fungsi untuk inisialisasi halaman
-        async function initPage() {
-            const data = await loadData();
-            if (!data) {
-                document.getElementById('categories-container').innerHTML = '<div class="loading">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
-                document.getElementById('product-container').innerHTML = '<div class="loading">เกิดข้อผิดพลาดในการโหลดข้อมูล</div>';
-                return;
-            }
-            
-            // Tampilkan kategori
-            displayCategories(data.categories);
-            
-            // Tampilkan produk
-            displayProducts(data.products, 4);
-            
-            // Terapkan bahasa yang dipilih jika ada
-            const savedLanguage = localStorage.getItem('selectedLanguage');
-            if (savedLanguage) {
-                applyTranslations(savedLanguage);
-            }
-            
-            // Event listener untuk tombol semua produk
-            document.getElementById('all-products').addEventListener('click', (e) => {
-                e.preventDefault();
-                window.location.href = 'product.html';
-            });
-            
-            // Event listener untuk tombol shop now
-            document.getElementById('shop-now').addEventListener('click', () => {
-                window.location.href = 'product.html';
-            });
-        }
-
-        // Fungsi untuk redirect ke halaman underage
-        function redirectToUnderagePage() {
-            window.location.href = 'underage.html';
-        }
-
-        // Event listeners untuk verifikasi usia
-        document.getElementById('verify-yes').addEventListener('click', function() {
-            document.getElementById('age-verification').style.display = 'none';
-            document.getElementById('language-selection').style.display = 'flex';
-        });
-
-        document.getElementById('verify-no').addEventListener('click', function() {
-            redirectToUnderagePage();
-        });
-
-        // Event listeners untuk pemilihan bahasa
-        document.querySelectorAll('.language-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const lang = this.getAttribute('data-lang');
-                applyTranslations(lang);
-                document.getElementById('language-selection').style.display = 'none';
-            });
-        });
-
-        // Event listener untuk pengganti bahasa di header
-        document.getElementById('language-switcher').addEventListener('click', function() {
-            document.getElementById('language-selection').style.display = 'flex';
-        });
-
-        // Jalankan inisialisasi saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', initPage);
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
