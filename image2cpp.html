@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video2Cpp - 160x80 Binary Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f0f2f5; color: #333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .panel { background: white; border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 2px; }
+        h2 { font-weight: bold; border-bottom: 1px solid #ccc; margin-bottom: 10px; padding-bottom: 3px; font-size: 13px; text-transform: uppercase; color: #555; }
+        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 3px; color: #666; }
+        input[type="number"], input[type="text"], select { 
+            width: 100%; border: 1px solid #999; padding: 4px; font-size: 12px; margin-bottom: 10px; border-radius: 2px;
+        }
+        .canvas-container { background: #444; padding: 20px; text-align: center; border-radius: 4px; }
+        canvas { background: #000; border: 1px solid #000; image-rendering: pixelated; display: block; margin: 0 auto; }
+        #output { 
+            font-family: 'Consolas', monospace; font-size: 11px; background: #fff; 
+            border: 1px solid #999; padding: 10px; height: 350px; overflow-y: scroll; 
+            white-space: pre; color: #000;
+        }
+        .btn-generate { background: #4a90e2; color: white; font-weight: bold; padding: 10px; border-radius: 2px; width: 100%; text-transform: uppercase; }
+        .btn-generate:hover { background: #357abd; }
+        .btn-generate:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-xl font-bold mb-4">video2cpp <span class="font-normal text-gray-500">| Video to Binary Converter</span></h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Settings Panel -->
+            <div class="space-y-4">
+                <div class="panel">
+                    <h2>1. Select Video</h2>
+                    <input type="file" id="videoInput" accept="video/*" class="text-xs">
+                    <p id="videoInfo" class="text-[10px] text-gray-500 mt-1 uppercase font-bold"></p>
+                </div>
+
+                <div class="panel">
+                    <h2>2. Image Settings</h2>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label>Width</label>
+                            <input type="number" id="width" value="160">
+                        </div>
+                        <div>
+                            <label>Height</label>
+                            <input type="number" id="height" value="80">
+                        </div>
+                    </div>
+                    <label>Scaling</label>
+                    <select id="scaling">
+                        <option value="stretch">Stretch to fill</option>
+                        <option value="fit">Keep Aspect Ratio</option>
+                    </select>
+                    <label>Brightness Threshold (0-255)</label>
+                    <input type="range" id="threshold" min="0" max="255" value="128" class="w-full">
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox" id="invert">
+                        <label for="invert" class="mb-0">Invert colors</label>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h2>3. Output Settings</h2>
+                    <label>Identifier</label>
+                    <input type="text" id="identifier" value="video_data">
+                    <label>Draw Mode</label>
+                    <select id="drawMode">
+                        <option value="horizontal">Horizontal - 1 bit per pixel</option>
+                        <option value="vertical">Vertical - 1 bit per pixel</option>
+                    </select>
+                    <label>FPS</label>
+                    <input type="number" id="fps" value="5" min="1" max="25">
+                    <button id="generateBtn" disabled class="btn-generate mt-2">Generate Biner</button>
+                    <button id="downloadBtn" class="w-full mt-2 bg-green-600 text-white p-2 text-xs font-bold hidden">DOWNLOAD VIDEO.H</button>
+                </div>
+            </div>
+
+            <!-- Preview and Output -->
+            <div class="md:col-span-2 space-y-4">
+                <div class="panel">
+                    <h2>Preview</h2>
+                    <div class="canvas-container">
+                        <canvas id="canvas"></canvas>
+                        <p id="progressStatus" class="text-white text-[10px] mt-2 uppercase tracking-widest font-bold"></p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2>Output Binary</h2>
+                        <button id="copyBtn" class="text-[10px] border border-gray-400 px-2 py-1 hover:bg-gray-100">Copy to Clipboard</button>
+                    </div>
+                    <div id="output">Hasil konversi akan muncul di sini...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <video id="hiddenVideo" class="hidden" muted playsinline></video>
+
+    <script>
+        const videoInput = document.getElementById('videoInput');
+        const video = document.getElementById('hiddenVideo');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const output = document.getElementById('output');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressStatus = document.getElementById('progressStatus');
+
+        let binaryCode = "";
+
+        // Set default canvas size
+        const updateCanvasSize = () => {
+            canvas.width = document.getElementById('width').value;
+            canvas.height = document.getElementById('height').value;
+        };
+        updateCanvasSize();
+        document.getElementById('width').onchange = updateCanvasSize;
+        document.getElementById('height').onchange = updateCanvasSize;
+
+        videoInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                video.src = URL.createObjectURL(file);
+                video.onloadedmetadata = () => {
+                    document.getElementById('videoInfo').innerText = `Duration: ${video.duration.toFixed(2)}s | Ready`;
+                    generateBtn.disabled = false;
+                };
+            }
+        };
+
+        const getPixel = (data, x, y, width, threshold, invert) => {
+            const i = (y * width + x) * 4;
+            const avg = (data[i] + data[i+1] + data[i+2]) / 3;
+            let val = avg > threshold ? 1 : 0;
+            return invert ? (val === 1 ? 0 : 1) : val;
+        };
+
+        async function startConversion() {
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            const threshold = parseInt(document.getElementById('threshold').value);
+            const invert = document.getElementById('invert').checked;
+            const identifier = document.getElementById('identifier').value;
+            const drawMode = document.getElementById('drawMode').value;
+            const fps = parseInt(document.getElementById('fps').value);
+            const scaling = document.getElementById('scaling').value;
+
+            generateBtn.disabled = true;
+            binaryCode = "";
+            output.innerText = "Memproses frame...";
+            
+            const duration = Math.min(video.duration, 20); // Limit 20s
+            const interval = 1 / fps;
+            let currentTime = 0;
+            let frameIdx = 0;
+
+            while (currentTime < duration) {
+                video.currentTime = currentTime;
+                
+                await new Promise(resolve => {
+                    const onSeeked = () => {
+                        video.removeEventListener('seeked', onSeeked);
+                        resolve();
+                    };
+                    video.addEventListener('seeked', onSeeked);
+                    setTimeout(resolve, 1000); // Failsafe
+                });
+
+                // Clear and Draw
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, width, height);
+
+                if (scaling === 'stretch') {
+                    ctx.drawImage(video, 0, 0, width, height);
+                } else {
+                    const ratio = Math.min(width / video.videoWidth, height / video.videoHeight);
+                    const nw = video.videoWidth * ratio;
+                    const nh = video.videoHeight * ratio;
+                    ctx.drawImage(video, (width - nw) / 2, (height - nh) / 2, nw, nh);
+                }
+
+                const imgData = ctx.getImageData(0, 0, width, height);
+                const raw = imgData.data;
+
+                // Preview Update (apply threshold)
+                for (let i = 0; i < raw.length; i += 4) {
+                    const avg = (raw[i] + raw[i+1] + raw[i+2]) / 3;
+                    const val = avg > threshold ? 255 : 0;
+                    raw[i] = raw[i+1] = raw[i+2] = (invert ? (val === 255 ? 0 : 255) : val);
+                }
+                ctx.putImageData(imgData, 0, 0);
+
+                // Convert to Binary Array
+                let frameBytes = [];
+                if (drawMode === 'horizontal') {
+                    for (let y = 0; y < height; y++) {
+                        for (let x = 0; x < width; x += 8) {
+                            let byte = 0;
+                            for (let b = 0; b < 8; b++) {
+                                if (x + b < width) {
+                                    const bit = getPixel(raw, x + b, y, width, 127, false); // already inverted in preview
+                                    if (bit) byte |= (1 << (7 - b));
+                                }
+                            }
+                            frameBytes.push('0x' + byte.toString(16).padStart(2, '0').toUpperCase());
+                        }
+                    }
+                } else {
+                    for (let x = 0; x < width; x++) {
+                        for (let y = 0; y < height; y += 8) {
+                            let byte = 0;
+                            for (let b = 0; b < 8; b++) {
+                                if (y + b < height) {
+                                    const bit = getPixel(raw, x, y + b, width, 127, false);
+                                    if (bit) byte |= (1 << b);
+                                }
+                            }
+                            frameBytes.push('0x' + byte.toString(16).padStart(2, '0').toUpperCase());
+                        }
+                    }
+                }
+
+                binaryCode += `const unsigned char ${identifier}_frame${frameIdx}[] = { ${frameBytes.join(', ')} };\n\n`;
+                output.innerText = binaryCode;
+                output.scrollTop = output.scrollHeight;
+
+                frameIdx++;
+                currentTime += interval;
+                progressStatus.innerText = `FRAME: ${frameIdx} | ${Math.round((currentTime/duration)*100)}%`;
+                
+                await new Promise(r => setTimeout(r, 20));
+            }
+
+            // Build Master Array
+            let masterArr = `const unsigned char* const ${identifier}_all_frames[] = { `;
+            for(let i=0; i<frameIdx; i++) masterArr += `${identifier}_frame${i}${i === frameIdx-1 ? '' : ', '}`;
+            masterArr += ` };\n`;
+            
+            binaryCode += masterArr;
+            output.innerText = binaryCode;
+            
+            generateBtn.disabled = false;
+            downloadBtn.classList.remove('hidden');
+            progressStatus.innerText = "DONE!";
+        }
+
+        generateBtn.onclick = startConversion;
+
+        downloadBtn.onclick = () => {
+            const blob = new Blob([binaryCode], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'video.h';
+            a.click();
+        };
+
+        document.getElementById('copyBtn').onclick = () => {
+            const el = document.createElement('textarea');
+            el.value = binaryCode;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("Berhasil disalin!");
+        };
+    </script>
+</body>
+</html>
+
