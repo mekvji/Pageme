@@ -1,19 +1,8 @@
 [
   {
-    "nama": "Modpack FIVEM (lite)",
-    "file": "fivemlite.zip"
-  },
-  {
-    "nama": "Sound Realistic V2",
-    "file": "sound_mod.zip"
-  },
-  {
-    "nama": "Mapping LSPD Baru",
-    "file": "lspd_map.zip"
-  },
-  {
-    "nama": "Skin Pack Indo",
-    "file": "skins_indo.zip"
+    "nama": "Graphics Ultra HD",
+    "image": "https://i.ytimg.com/vi/YiIx4ww2QFA/maxresdefault.jpg",
+    "deskripsi": "Mengubah tekstur langit dan air menjadi lebih realistis (Support All GPU).",
+    "file": "graphics_ultra.zip"
   }
 ]
-
