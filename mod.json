@@ -1,14 +1,25 @@
 [
   {
-    "nama": "FIVEM LITE",
+    "nama": "Definitive Edition",
+    "image": "https://i.ytimg.com/vi/YiIx4ww2QFA/maxresdefault.jpg",
+    "deskripsi": "Mengubah tekstur, cahaya dan refleksi menjadi hd seperti GTA Definitive Edition",
+    "gpu": true,
+    "mali": "https://link-mali.com",
+    "adreno": "https://link-adreno.com",
+    "powevr": "https://link-powevr.com"
+  },
+  {
+    "nama": "Fivem Lite",
     "image": "https://i.ytimg.com/vi/YiIx4ww2QFA/maxresdefault.jpg",
     "deskripsi": "Mengubah skin player seperti fivem dan kendaraan jdm (Rename).",
+    "gpu": false,
     "file": "https://www.mediafire.com/file/p7pylvgh0a3fdt3/fivemlite.7z/file?dkey=70cz7wovcgw&r=1686"
   },
  {
-    "nama": "NEW VEHICLES",
+    "nama": "New Vehicle 1",
     "image": "https://img.youtube.com/vi/EZr-0zQTZBM/maxresdefault.jpg",
     "deskripsi": "Mengubah model kendaraan menjadi drag, jdm dan suv (Mali).",
+    "gpu": false,
     "file": "https://www.mediafire.com/file/teacikkocweyheo/dragjdmcumi.7z/file?dkey=dqy12g33t6g&r=669"
  }
 ]
