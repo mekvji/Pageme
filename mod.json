@@ -18,11 +18,13 @@
     "powevr": "https://www.mediafire.com/file/b7m6evh1kb7epgm/gtaallgpu.zip"
   },
   {
-    "nama": "Fivem Lite",
+    "nama": "Fivem Full",
     "image": "https://i.ytimg.com/vi/YiIx4ww2QFA/maxresdefault.jpg",
-    "deskripsi": "Mengubah skin player seperti fivem dan kendaraan jdm (Rename).",
-    "gpu": false,
-    "file": "https://www.mediafire.com/file/p7pylvgh0a3fdt3/fivemlite.7z/file?dkey=70cz7wovcgw&r=1686"
+    "deskripsi": "Mengubah skin player seperti fivem dan kendaraan jdm. Pasang dengan SAM INSTALLER.",
+    "gpu": true,
+    "mali": "https://www.mediafire.com/file/9d6w5gnu9eu103i/fivem.zip",
+    "adreno": "https://www.mediafire.com/file/9d6w5gnu9eu103i/fivem.zip",
+    "powevr": "https://www.mediafire.com/file/9d6w5gnu9eu103i/fivem.zip"
   },
  {
     "nama": "New Vehicle 1",
