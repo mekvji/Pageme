@@ -1,25 +1,16 @@
 [
   {
-    "nama": "Cheat Menu v4",
+    "nama": "Universal Cleo",
     "deskripsi": "Menu cheat lengkap untuk memunculkan kendaraan, senjata, dan cuaca.",
     "image": "https://link-gambar-anda.com/cheatmenu.jpg",
     "file": "https://link-download-anda.com/cheat_menu.zip",
     "gpu": false
   },
   {
-    "nama": "First Person Mod",
-    "deskripsi": "Mod pandangan orang pertama agar pengalaman bermain lebih nyata.",
+    "nama": "No Traffic",
+    "deskripsi": "Mod menghilangkan lalu lintas kendaraan.",
     "image": "https://link-gambar-anda.com/fpv.jpg",
-    "file": "https://link-download-anda.com/fpv_mod.zip",
+    "file": "https://www.mediafire.com/file/4kffarx5q77l3y2/notrafict.zip",
     "gpu": false
-  },
-  {
-    "nama": "Real Effect Graphics",
-    "deskripsi": "Menambahkan efek percikan darah dan asap yang lebih realistis.",
-    "image": "https://link-gambar-anda.com/effect.jpg",
-    "gpu": true,
-    "mali": "https://link-download.com/mali_fx.zip",
-    "adreno": "https://link-download.com/adreno_fx.zip",
-    "powevr": "https://link-download.com/pvr_fx.zip"
   }
 ]
