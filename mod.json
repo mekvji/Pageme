@@ -1,23 +1,5 @@
 [
   {
-    "nama": "Definitive Edition",
-    "image": "https://www.dsogaming.com/wp-content/uploads/2023/12/GTA-San-Andreas-The-Definitive-Edition-1038x576.jpg",
-    "deskripsi": "Mengubah tekstur, cahaya dan refleksi menjadi hd seperti GTA Definitive Edition",
-    "gpu": true,
-    "mali": "https://www.mediafire.com/file/257rns9d13y5kam/Data_Mali_GTA_SA_DE_Modpack_V6.7z/file",
-    "adreno": "https://www.mediafire.com/file/l77adqvxd36eorw/Data_Adreno_GTA_SA_DE_Modpack_V6.7z/file?dkey=zo8o2rd9thq&r=1607",
-    "powevr": "https://www.mediafire.com/file/xmp92g1xg58j17i/Data_PowerVR_GTA_SA_DE_Modpack_V6.7z/file"
-  },
-    {
-    "nama": "GTA Tawuran",
-    "image": "https://img.youtube.com/vi/UHqwLbp311I/maxresdefault.jpg",
-    "deskripsi": "Mengubah skin senjata, Player dan beberapa kendaraan. Pasang dengan SAM INSTALLER",
-    "gpu": true,
-    "mali": "https://www.mediafire.com/file/b7m6evh1kb7epgm/gtaallgpu.zip",
-    "adreno": "https://www.mediafire.com/file/b7m6evh1kb7epgm/gtaallgpu.zip",
-    "powevr": "https://www.mediafire.com/file/b7m6evh1kb7epgm/gtaallgpu.zip"
-  },
-  {
     "nama": "Fivem Full",
     "image": "https://i.ytimg.com/vi/YiIx4ww2QFA/maxresdefault.jpg",
     "deskripsi": "Mengubah skin player seperti fivem dan kendaraan jdm. Pasang dengan SAM INSTALLER.",
@@ -36,10 +18,10 @@
     "powevr": "https://www.mediafire.com/file/7auwpas73zslsrc/fivemlite.zip"
   },
  {
-    "nama": "New Vehicle 1",
+    "nama": "Maintenance",
     "image": "https://img.youtube.com/vi/EZr-0zQTZBM/maxresdefault.jpg",
-    "deskripsi": "Mengubah model kendaraan menjadi drag, jdm dan suv (Mali).",
+    "deskripsi": "Modpack lainnya sedang dalam maintenance, percepat maintenance dengan berdonasi donasi anda sama dengan 100x anda memberikan uang kepada orang tudak mampu wkwk.",
     "gpu": false,
-    "file": "https://www.mediafire.com/file/teacikkocweyheo/dragjdmcumi.7z/file?dkey=dqy12g33t6g&r=669"
+    "file": ""
  }
 ]
