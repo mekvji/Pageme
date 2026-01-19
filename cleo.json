@@ -4,13 +4,13 @@
     "deskripsi": "Menu cheat lengkap untuk memunculkan kendaraan, senjata, dan cuaca.",
     "image": "https://img.youtube.com/vi/CjnwPeFhrng/maxresdefault.jpg",
     "file": "https://www.mediafire.com/file/jm1j9tkau40nyet/allcleo.zip/file",
-    "gpu": false
+    "gpu": true
   },
   {
     "nama": "No Traffic",
     "deskripsi": "Mod menghilangkan lalu lintas kendaraan.",
     "image": "https://img.youtube.com/vi/s36GWi42ooQ/maxresdefault.jpg",
     "file": "https://www.mediafire.com/file/4kffarx5q77l3y2/notrafict.zip",
-    "gpu": false
+    "gpu": true
   }
 ]
